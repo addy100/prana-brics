@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Expanded:wght@500;600&family=Fira+Code:wght@500;700&family=Inter+Tight:wght@300;400;500;600&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600&family=Unbounded:wght@500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/src/style.css" />
   
-  <!-- Open-Source 3D Globe Library (Globe.gl & Three.js) -->
+  <!-- Open-Source 3D Globe Library -->
   <script src="https://unpkg.com/globe.gl"></script>
   <script type="importmap">
     {
@@ -21,11 +21,11 @@
   </script>
 </head>
 <body>
-  <!-- 3D WebGL Globe & Canvas Container -->
+  <!-- 3D WebGL Canvas Containers -->
   <div id="globe-container" style="width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 1;"></div>
-  <div id="canvas-container" style="display: none;"></div>
+  <div id="canvas-container" style="width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 1; display: none;"></div>
 
-  <!-- Top Navigation Header (Terafab Style) -->
+  <!-- Top Navigation Header -->
   <div id="top-bar">
     <div class="brand-badge">
       <div class="brand-pulse"></div>
@@ -35,19 +35,19 @@
       <span>🌍 3D Heatmap Globe</span>
     </button>
     <button class="tab-btn" data-tab="roadmap">
-      <span>Corridor Mesh</span>
+      <span>⚽ 3D Corridor Mesh</span>
     </button>
     <button class="tab-btn" data-tab="sky-vision">
-      <span>Sky Vision (Gemini 1.5)</span>
+      <span>🌅 Sky Vision (Gemini 1.5)</span>
     </button>
     <button class="tab-btn" data-tab="corridor-radar">
-      <span>Einstein Radar (Live API)</span>
+      <span>⚡ Einstein Radar (Live API)</span>
     </button>
     <button class="tab-btn" data-tab="voice-engine">
-      <span>Vernacular Engine</span>
+      <span>🗣️ Vernacular Engine</span>
     </button>
-    <button class="tab-btn" data-tab="pitch-deck" style="background: rgba(255,255,255,0.12); color: #ffffff;">
-      <span>Pitch Deck</span>
+    <button class="tab-btn" data-tab="pitch-deck" style="background: rgba(255,255,255,0.15); color: #ffffff;">
+      <span>🏆 Pitch Deck</span>
     </button>
   </div>
 
@@ -55,7 +55,7 @@
   <div id="overlay">
     <span class="badge" id="api-status-badge">● LIVE 90-DAY API CONNECTED (Open-Meteo & GEE)</span>
     <h1>PRANA 3D Climate Radar</h1>
-    <p class="sub">3D Dynamic Open-Source Globe Heatmap with 90-Day Historical Time Interval & Real-Time PDE Advection Solver</p>
+    <p class="sub">3D Dynamic Open-Source Globe Heatmap with 90-Day Time Filter & Real-Time PDE Advection Solver</p>
 
     <!-- 90-Day Parameter & Time Interval Selection -->
     <div class="detail-block" style="background: rgba(255, 255, 255, 0.04); border-color: rgba(255,255,255,0.2);">
@@ -103,7 +103,7 @@
     <div id="node-details">
       <h2 id="detail-title">Selected Station Telemetry</h2>
       <div id="globe-selected-info" class="detail-block">
-        <p>Click on any 3D Globe heatmap node or pin (Delhi, Jalandhar, Noida, Rohtak, Durgapur) to inspect live & historical observations.</p>
+        <p>Click on any 3D Globe heatmap node or pin (Delhi, Jalandhar, Noida, Rohtak, Durgapur, Beijing, São Paulo, Johannesburg, Dubai) to inspect live & historical observations.</p>
       </div>
     </div>
   </div>
@@ -183,7 +183,6 @@
       { id: "noida", station: "Sector 62, Noida", state: "Uttar Pradesh", lat: 28.6258, lon: 77.3648, pm25: 135, pm10: 195, no2: 38, so2: 11, us_aqi: 188, temp: 29.0, humidity: 64, wind_speed: 1.8, wind_dir: 290, status: "Critical" },
       { id: "rohtak", station: "Rohtak Central, Rohtak", state: "Haryana", lat: 28.8955, lon: 76.6066, pm25: 105, pm10: 155, no2: 31, so2: 9, us_aqi: 155, temp: 27.8, humidity: 60, wind_speed: 2.1, wind_dir: 305, status: "Severe" },
       { id: "durgapur", station: "Industrial Zone, Durgapur", state: "West Bengal", lat: 23.5204, lon: 87.3119, pm25: 85, pm10: 125, no2: 26, so2: 14, us_aqi: 116, temp: 31.2, humidity: 75, wind_speed: 2.5, wind_dir: 140, status: "Moderate" },
-      // Sovereign BRICS+ Nodes
       { id: "beijing", station: "CAS Node, Beijing", state: "China", lat: 39.9042, lon: 116.4074, pm25: 72, pm10: 105, no2: 35, so2: 7, us_aqi: 98, temp: 22.0, humidity: 45, wind_speed: 4.1, wind_dir: 320, status: "Moderate" },
       { id: "saopaulo", station: "INPE Node, São Paulo", state: "Brazil", lat: -23.5505, lon: -46.6333, pm25: 48, pm10: 68, no2: 18, so2: 4, us_aqi: 65, temp: 24.5, humidity: 70, wind_speed: 3.0, wind_dir: 180, status: "Good" },
       { id: "johannesburg", station: "CSIR Node, Johannesburg", state: "South Africa", lat: -26.2041, lon: 28.0473, pm25: 55, pm10: 82, no2: 22, so2: 10, us_aqi: 74, temp: 19.8, humidity: 52, wind_speed: 3.5, wind_dir: 210, status: "Moderate" },
@@ -205,8 +204,8 @@
       { id: 12, title: "Conclusion & Call to Action", category: "Call to Action", subtitle: "Clean Air is a Fundamental Human Right: Uniting Physics, AI & Community", bulletPoints: ["PRANA delivers an open, scalable, physics-informed climate radar built on Google AI.", "Bridge the gap between macro satellite policy and grassroots agricultural reality.", "Explore the live interactive 3D web application and GitHub blueprint repository today!"], tags: ["PRANA-BRICS", "Google AI", "Deploy Now"] }
     ];
 
-    // --- 2. OPEN-SOURCE 3D GLOBE INITIALIZATION (Globe.gl) ---
-    let myGlobe;
+    // --- 2. 3D GLOBE INITIALIZATION (Fail-safe Globe.gl + Three.js) ---
+    let myGlobe = null;
     let currentParam = 'pm25';
     let currentTimeOffsetDays = 0;
 
@@ -214,52 +213,59 @@
       const elem = document.getElementById('globe-container');
       if (!elem) return;
 
-      myGlobe = Globe()(elem)
-        .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-dark.jpg')
-        .bumpImageUrl('https://unpkg.com/three-globe/example/img/earth-topology.png')
-        .backgroundImageUrl('https://unpkg.com/three-globe/example/img/night-sky.png')
-        .showAtmosphere(true)
-        .atmosphereColor('#38bdf8')
-        .atmosphereDayHeight(0.18)
+      if (typeof window.Globe !== 'function') {
+        console.warn('[PRANA 3D Globe] Globe.gl loading, retrying in 300ms...');
+        setTimeout(init3DGlobe, 300);
+        return;
+      }
 
-        // 3D Heatmap Points & Rings
-        .pointsData(CORRIDOR_STATIONS)
-        .pointLat(d => d.lat)
-        .pointLng(d => d.lon)
-        .pointColor(d => getParamColor(d, currentParam))
-        .pointAltitude(d => getParamVal(d, currentParam) / 300)
-        .pointRadius(0.6)
-        .pointLabel(d => `
-          <div style="background:rgba(0,0,0,0.85); padding:8px 12px; border-radius:6px; border:1px solid #38bdf8; font-family:sans-serif;">
-            <b style="color:#fff">${d.station}</b><br/>
-            <span style="color:#38bdf8">${currentParam.toUpperCase()}: ${getParamVal(d, currentParam)}</span><br/>
-            <span style="color:#aaa">Wind: ${d.wind_speed} m/s @ ${d.wind_dir}°</span>
-          </div>
-        `)
-        .onPointClick(d => {
-          updateSelectedStationUI(d);
-          myGlobe.pointOfView({ lat: d.lat, lng: d.lon, altitude: 1.5 }, 1200);
-        })
+      try {
+        myGlobe = window.Globe()(elem)
+          .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-dark.jpg')
+          .bumpImageUrl('https://unpkg.com/three-globe/example/img/earth-topology.png')
+          .backgroundImageUrl('https://unpkg.com/three-globe/example/img/night-sky.png')
+          .showAtmosphere(true)
+          .atmosphereColor('#38bdf8')
+          .atmosphereDayHeight(0.18)
 
-        // Trans-boundary Corridor Arcs (Punjab -> Delhi -> UP -> Bengal)
-        .arcsData([
-          { startLat: 31.3256, startLng: 75.5792, endLat: 28.6469, endLng: 77.3160, color: ['#f43f5e', '#38bdf8'] }, // Jalandhar -> Delhi
-          { startLat: 28.8955, startLng: 76.6066, endLat: 28.6469, endLng: 77.3160, color: ['#f59e0b', '#38bdf8'] }, // Rohtak -> Delhi
-          { startLat: 28.6469, startLng: 77.3160, endLat: 28.6258, endLng: 77.3648, color: ['#38bdf8', '#818cf8'] }, // Delhi -> Noida
-          { startLat: 28.6258, startLng: 77.3648, endLat: 23.5204, endLng: 87.3119, color: ['#818cf8', '#10b981'] }  // Noida -> Durgapur
-        ])
-        .arcColor('color')
-        .arcDashLength(0.4)
-        .arcDashGap(0.2)
-        .arcDashAnimateTime(2000)
-        .arcStroke(1.2);
+          .pointsData(CORRIDOR_STATIONS)
+          .pointLat(d => d.lat)
+          .pointLng(d => d.lon)
+          .pointColor(d => getParamColor(d, currentParam))
+          .pointAltitude(d => getParamVal(d, currentParam) / 350)
+          .pointRadius(0.7)
+          .pointLabel(d => `
+            <div style="background:rgba(0,0,0,0.9); padding:10px 14px; border-radius:8px; border:1px solid #38bdf8; font-family:sans-serif; color:#fff;">
+              <b style="font-size:14px; color:#fff">${d.station}</b><br/>
+              <span style="color:#38bdf8; font-weight:bold;">${currentParam.toUpperCase()}: ${getParamVal(d, currentParam)}</span><br/>
+              <span style="color:#aaa; font-size:11px;">Wind: ${d.wind_speed} m/s @ ${d.wind_dir}° NW Vector</span>
+            </div>
+          `)
+          .onPointClick(d => {
+            updateSelectedStationUI(d);
+            myGlobe.pointOfView({ lat: d.lat, lng: d.lon, altitude: 1.5 }, 1200);
+          })
 
-      myGlobe.pointOfView({ lat: 26.5, lng: 80.0, altitude: 2.2 });
+          .arcsData([
+            { startLat: 31.3256, startLng: 75.5792, endLat: 28.6469, endLng: 77.3160, color: ['#f43f5e', '#38bdf8'] },
+            { startLat: 28.8955, startLng: 76.6066, endLat: 28.6469, endLng: 77.3160, color: ['#f59e0b', '#38bdf8'] },
+            { startLat: 28.6469, startLng: 77.3160, endLat: 28.6258, endLng: 77.3648, color: ['#38bdf8', '#818cf8'] },
+            { startLat: 28.6258, startLng: 77.3648, endLat: 23.5204, endLng: 87.3119, color: ['#818cf8', '#10b981'] }
+          ])
+          .arcColor('color')
+          .arcDashLength(0.4)
+          .arcDashGap(0.2)
+          .arcDashAnimateTime(2000)
+          .arcStroke(1.4);
+
+        myGlobe.pointOfView({ lat: 26.5, lng: 80.0, altitude: 2.2 });
+      } catch (err) {
+        console.warn('[PRANA 3D Globe] Initialization error:', err);
+      }
     }
 
     function getParamVal(d, param) {
       const base = d[param] != null ? d[param] : d.pm25;
-      // Simulate 90-day historical time offset fluctuations
       if (currentTimeOffsetDays > 0) {
         const factor = 1 + 0.25 * Math.sin(currentTimeOffsetDays * 0.4 + d.lat);
         return Math.max(10, Math.round(base * factor));
@@ -286,18 +292,18 @@
       const info = document.getElementById('globe-selected-info');
       if (!info) return;
       info.innerHTML = `
-        <h4 style="color:#fff; font-size:14px; font-weight:600;">${st.station}</h4>
-        <p style="color:#aaa; font-size:11px;">${st.state} • Lat ${st.lat}, Lon ${st.lon}</p>
-        <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:6px; margin-top:8px; font-family:var(--font-mono); font-size:11px;">
-          <div style="background:rgba(255,255,255,0.04); padding:6px; border-radius:4px;">PM2.5: <b style="color:#f43f5e">${getParamVal(st, 'pm25')} µg/m³</b></div>
-          <div style="background:rgba(255,255,255,0.04); padding:6px; border-radius:4px;">PM10: <b style="color:#f59e0b">${getParamVal(st, 'pm10')} µg/m³</b></div>
-          <div style="background:rgba(255,255,255,0.04); padding:6px; border-radius:4px;">NO2: <b style="color:#38bdf8">${st.no2} µg/m³</b></div>
-          <div style="background:rgba(255,255,255,0.04); padding:6px; border-radius:4px;">Wind: <b>${st.wind_speed} m/s</b></div>
+        <h4 style="color:#ffffff; font-size:15px; font-weight:600; font-family:var(--font-display);">${st.station}</h4>
+        <p style="color:var(--text-muted); font-size:11px; margin-bottom:8px;">${st.state} • Lat ${st.lat}, Lon ${st.lon}</p>
+        <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:6px; font-family:var(--font-mono); font-size:11px;">
+          <div style="background:rgba(255,255,255,0.04); padding:8px; border-radius:6px; border:1px solid var(--line);">PM2.5: <b style="color:#f43f5e">${getParamVal(st, 'pm25')} µg/m³</b></div>
+          <div style="background:rgba(255,255,255,0.04); padding:8px; border-radius:6px; border:1px solid var(--line);">PM10: <b style="color:#f59e0b">${getParamVal(st, 'pm10')} µg/m³</b></div>
+          <div style="background:rgba(255,255,255,0.04); padding:8px; border-radius:6px; border:1px solid var(--line);">NO2: <b style="color:#38bdf8">${st.no2} µg/m³</b></div>
+          <div style="background:rgba(255,255,255,0.04); padding:8px; border-radius:6px; border:1px solid var(--line);">Wind: <b>${st.wind_speed} m/s @ ${st.wind_dir}°</b></div>
         </div>
       `;
     }
 
-    // --- 3. REAL-TIME & 90-DAY API FETCHER ---
+    // --- 3. REAL-TIME CLIMATE API STREAMING ---
     async function fetchRealTimeStationData(st) {
       try {
         const aqUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${st.lat}&longitude=${st.lon}&current=pm2_5,pm10,nitrogen_dioxide,sulphur_dioxide,us_aqi&timezone=auto`;
@@ -332,7 +338,7 @@
 
     async function updateAllRealTimeStations() {
       const badge = document.getElementById('api-status-badge');
-      if (badge) badge.innerText = '● FETCHING REAL-TIME & 90-DAY CLIMATE SATELLITE API...';
+      if (badge) badge.innerText = '● FETCHING REAL-TIME CLIMATE SATELLITE API...';
 
       await Promise.all(CORRIDOR_STATIONS.map(s => fetchRealTimeStationData(s)));
 
@@ -341,7 +347,61 @@
       renderCorridorRadarUI();
     }
 
-    // --- 4. UI TAB MODULE RENDERERS ---
+    // --- 4. THREE.JS 3D SCENE (Corridor Spline Mesh) ---
+    let corridorScene = null;
+    let camera, scene, renderer, particleSystem, targetCamPos = null;
+
+    function initCorridorScene() {
+      const container = document.getElementById('canvas-container');
+      if (!container) return;
+
+      scene = new THREE.Scene();
+      scene.fog = new THREE.FogExp2(0x000000, 0.035);
+
+      camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.set(0, 10, 28);
+
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      container.appendChild(renderer.domElement);
+
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+      scene.add(ambientLight);
+
+      const dirLight = new THREE.DirectionalLight(0x38bdf8, 2.5);
+      dirLight.position.set(20, 40, 20);
+      scene.add(dirLight);
+
+      const gridHelper = new THREE.GridHelper(80, 80, 0x1f1f1f, 0x141414);
+      gridHelper.position.y = -6;
+      scene.add(gridHelper);
+
+      const curvePoints = ROADMAP_STAGES.map(s => s.position);
+      const spline = new THREE.CatmullRomCurve3(curvePoints);
+      const tubeGeometry = new THREE.TubeGeometry(spline, 120, 0.18, 16, false);
+      const tubeMaterial = new THREE.MeshStandardMaterial({
+        color: 0xffffff, emissive: 0x38bdf8, emissiveIntensity: 0.6, roughness: 0.2, metalness: 0.8
+      });
+      scene.add(new THREE.Mesh(tubeGeometry, tubeMaterial));
+
+      ROADMAP_STAGES.forEach(stage => {
+        const beacon = new THREE.Mesh(
+          new THREE.IcosahedronGeometry(0.9, 2),
+          new THREE.MeshStandardMaterial({ color: stage.color, emissive: stage.color, emissiveIntensity: 0.7, wireframe: true })
+        );
+        beacon.position.copy(stage.position);
+        scene.add(beacon);
+      });
+
+      function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+      }
+      animate();
+    }
+
+    // --- 5. UI TAB MODULE RENDERERS ---
     function renderCorridorRadarUI() {
       const container = document.getElementById('panel-corridor-radar');
       if (!container) return;
@@ -495,115 +555,137 @@
       document.getElementById('deck-close').onclick = () => document.getElementById('pitch-modal').style.display = 'none';
     }
 
-    // --- 5. BIND GLOBE & 90-DAY TIME SLIDER EVENTS ---
-    init3DGlobe();
-    renderCorridorRadarUI();
-    updateAllRealTimeStations();
+    // --- 6. INITIALIZE ON DOM READY ---
+    window.addEventListener('DOMContentLoaded', () => {
+      init3DGlobe();
+      initCorridorScene();
+      renderCorridorRadarUI();
+      updateAllRealTimeStations();
 
-    // Parameter Selector Dropdown
-    document.getElementById('globe-param-select').onchange = (e) => {
-      currentParam = e.target.value;
-      updateGlobeHeatmap();
-    };
-
-    // 90-Day Time Slider
-    const slider = document.getElementById('time-slider');
-    const sliderLabel = document.getElementById('slider-day-label');
-
-    slider.oninput = (e) => {
-      currentTimeOffsetDays = parseInt(e.target.value, 10);
-      sliderLabel.innerText = currentTimeOffsetDays === 0
-        ? `Day 0 (Real-Time Live)`
-        : `Day -${currentTimeOffsetDays} (${currentTimeOffsetDays} Days Ago)`;
-      updateGlobeHeatmap();
-    };
-
-    // Preset Range Buttons (Realtime, 24h, 7d, 30d, 90d)
-    document.querySelectorAll('#time-preset-btns .pill-btn').forEach(btn => {
-      btn.onclick = () => {
-        document.querySelectorAll('#time-preset-btns .pill-btn').forEach(b => {
-          b.style.background = 'rgba(255,255,255,0.1)';
-          b.style.color = '#fff';
-        });
-        btn.style.background = '#fff';
-        btn.style.color = '#000';
-
-        const range = btn.getAttribute('data-range');
-        if (range === 'realtime') slider.value = 0;
-        if (range === '24h') slider.value = 1;
-        if (range === '7d') slider.value = 7;
-        if (range === '30d') slider.value = 30;
-        if (range === '90d') slider.value = 90;
-
-        slider.dispatchEvent(new Event('input'));
-      };
-    });
-
-    document.getElementById('btn-refresh-globe').onclick = () => updateAllRealTimeStations();
-
-    // Top Navigation Tabs
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.onclick = () => {
-        const tab = btn.getAttribute('data-tab');
-        if (tab === 'pitch-deck') {
-          document.getElementById('pitch-modal').style.display = 'block';
-          renderPitchDeck(0);
-          return;
-        }
-
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-        const overlay = document.getElementById('overlay');
-        const globeElem = document.getElementById('globe-container');
-
-        if (tab === 'globe') {
-          globeElem.style.display = 'block';
-          overlay.style.display = 'block';
-        } else if (tab === 'roadmap') {
-          globeElem.style.display = 'none';
-          overlay.style.display = 'block';
-        } else {
-          globeElem.style.display = 'none';
-          overlay.style.display = 'none';
-          document.getElementById(`panel-${tab}`).classList.add('active');
-        }
-      };
-    });
-
-    // Sky & Voice Action Buttons
-    document.getElementById('btn-run-sky').onclick = () => {
-      const out = document.getElementById('sky-output');
-      const lang = document.getElementById('sky-lang').value;
-      const delhiPM = CORRIDOR_STATIONS[0].pm25;
-      out.style.display = 'block';
-      out.innerHTML = `[GEMINI 1.5 FLASH VISION MODEL // OPTICAL RADIANCE DENSITY]\nVisual Range Extinction Coefficient: 0.46 /km\nEstimated Aerosol Optical Depth (AOD): 1.85 (Hazardous Smog)\nLive Ground PM2.5 Observation: ${delhiPM} µg/m³\nDetected Plume: Agricultural Stubble Burn Smoke along 310° NW wind trajectory.\n\nVernacular Advisory (${lang}):\n• ${lang === 'Punjabi' ? 'ਹਵਾ ਵਿੱਚ ਪ੍ਰਦੂਸ਼ਣ ਬਹੁਤ ਜ਼ਿਆਦਾ ਹੈ। ਖੇਤਾਂ ਵਿੱਚ ਪਰਾਲੀ ਨੂੰ ਨਾ ਬਾਲੋ, ਬਾਇਓ-ਡੀਕੰਪੋਜ਼ਰ ਦੀ ਵਰਤੋਂ ਕਰੋ।' : 'वायु गुणवत्ता अति गंभीर श्रेणी में है। वृद्धजन बाहर जाने से बचें। खेतों में बायो-डीकंपोज़र का उपयोग करें।'}`;
-    };
-
-    let lastVoiceText = '';
-    document.getElementById('btn-voice-submit').onclick = () => {
-      const out = document.getElementById('voice-output');
-      const btnSpeak = document.getElementById('btn-voice-speak');
-      const lang = document.getElementById('voice-lang').value;
-      out.style.display = 'block';
-      lastVoiceText = lang === 'Punjabi'
-        ? 'ਸਤਿ ਸ਼੍ਰੀ ਅਕਾਲ। ਪ੍ਰਾਣਾ ਅਨੁਸਾਰ ਅਗਲੇ 48 ਘੰਟਿਆਂ ਵਿੱਚ ਉੱਤਰ-ਪੱਛਮੀ ਹਵਾਵਾਂ ਕਰਕੇ ਧੂੰਆਂ ਦਿੱਲੀ ਵੱਲ ਵਧੇਗਾ। ਬਾਇਓ-ਡੀਕੰਪੋਜ਼ਰ ਦੀ ਵਰਤੋਂ ਕਰੋ।'
-        : 'नमस्कार। प्राणा प्रणाली के अनुसार अगले 48 घंटों तक वायु गुणवत्ता अति गंभीर श्रेणी में रहेगी। बाहर निकलने पर मास्क पहनें।';
-      out.innerHTML = `<strong>Synthesized Advisory (${lang}):</strong>\n${lastVoiceText}`;
-      btnSpeak.style.display = 'flex';
-    };
-
-    document.getElementById('btn-voice-speak').onclick = () => {
-      if (!lastVoiceText) return;
-      const synth = window.speechSynthesis;
-      if (synth) {
-        synth.cancel();
-        const utter = new SpeechSynthesisUtterance(lastVoiceText);
-        utter.lang = document.getElementById('voice-lang').value === 'Punjabi' ? 'pa-IN' : 'hi-IN';
-        synth.speak(utter);
+      // Parameter Selector Dropdown
+      const paramSelect = document.getElementById('globe-param-select');
+      if (paramSelect) {
+        paramSelect.onchange = (e) => {
+          currentParam = e.target.value;
+          updateGlobeHeatmap();
+        };
       }
-    };
+
+      // 90-Day Time Slider
+      const slider = document.getElementById('time-slider');
+      const sliderLabel = document.getElementById('slider-day-label');
+      if (slider && sliderLabel) {
+        slider.oninput = (e) => {
+          currentTimeOffsetDays = parseInt(e.target.value, 10);
+          sliderLabel.innerText = currentTimeOffsetDays === 0
+            ? `Day 0 (Real-Time Live)`
+            : `Day -${currentTimeOffsetDays} (${currentTimeOffsetDays} Days Ago)`;
+          updateGlobeHeatmap();
+        };
+      }
+
+      // Preset Range Buttons
+      document.querySelectorAll('#time-preset-btns .pill-btn').forEach(btn => {
+        btn.onclick = () => {
+          document.querySelectorAll('#time-preset-btns .pill-btn').forEach(b => {
+            b.style.background = 'rgba(255,255,255,0.1)';
+            b.style.color = '#fff';
+          });
+          btn.style.background = '#fff';
+          btn.style.color = '#000';
+
+          const range = btn.getAttribute('data-range');
+          if (slider) {
+            if (range === 'realtime') slider.value = 0;
+            if (range === '24h') slider.value = 1;
+            if (range === '7d') slider.value = 7;
+            if (range === '30d') slider.value = 30;
+            if (range === '90d') slider.value = 90;
+            slider.dispatchEvent(new Event('input'));
+          }
+        };
+      });
+
+      const btnRefresh = document.getElementById('btn-refresh-globe');
+      if (btnRefresh) btnRefresh.onclick = () => updateAllRealTimeStations();
+
+      // Top Navigation Tabs
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.onclick = () => {
+          const tab = btn.getAttribute('data-tab');
+          if (tab === 'pitch-deck') {
+            document.getElementById('pitch-modal').style.display = 'block';
+            renderPitchDeck(0);
+            return;
+          }
+
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+          const overlay = document.getElementById('overlay');
+          const globeElem = document.getElementById('globe-container');
+          const corridorElem = document.getElementById('canvas-container');
+
+          if (tab === 'globe') {
+            globeElem.style.display = 'block';
+            corridorElem.style.display = 'none';
+            overlay.style.display = 'block';
+          } else if (tab === 'roadmap') {
+            globeElem.style.display = 'none';
+            corridorElem.style.display = 'block';
+            overlay.style.display = 'block';
+          } else {
+            globeElem.style.display = 'none';
+            corridorElem.style.display = 'none';
+            overlay.style.display = 'none';
+            document.getElementById(`panel-${tab}`).classList.add('active');
+          }
+        };
+      });
+
+      // Sky & Voice Action Buttons
+      const btnSky = document.getElementById('btn-run-sky');
+      if (btnSky) {
+        btnSky.onclick = () => {
+          const out = document.getElementById('sky-output');
+          const lang = document.getElementById('sky-lang').value;
+          const delhiPM = CORRIDOR_STATIONS[0].pm25;
+          out.style.display = 'block';
+          out.innerHTML = `[GEMINI 1.5 FLASH VISION MODEL // OPTICAL RADIANCE DENSITY]\nVisual Range Extinction Coefficient: 0.46 /km\nEstimated Aerosol Optical Depth (AOD): 1.85 (Hazardous Smog)\nLive Ground PM2.5 Observation: ${delhiPM} µg/m³\nDetected Plume: Agricultural Stubble Burn Smoke along 310° NW wind trajectory.\n\nVernacular Advisory (${lang}):\n• ${lang === 'Punjabi' ? 'ਹਵਾ ਵਿੱਚ ਪ੍ਰਦੂਸ਼ਣ ਬਹੁਤ ਜ਼ਿਆਦਾ ਹੈ। ਖੇਤਾਂ ਵਿੱਚ ਪਰਾਲੀ ਨੂੰ ਨਾ ਬਾਲੋ, ਬਾਇਓ-ਡੀਕੰਪੋਜ਼ਰ ਦੀ ਵਰਤੋਂ ਕਰੋ।' : 'वायु गुणवत्ता अति गंभीर श्रेणी में है। वृद्धजन बाहर जाने से बचें। खेतों में बायो-डीकंपोज़र का उपयोग करें।'}`;
+        };
+      }
+
+      let lastVoiceText = '';
+      const btnVoice = document.getElementById('btn-voice-submit');
+      if (btnVoice) {
+        btnVoice.onclick = () => {
+          const out = document.getElementById('voice-output');
+          const btnSpeak = document.getElementById('btn-voice-speak');
+          const lang = document.getElementById('voice-lang').value;
+          out.style.display = 'block';
+          lastVoiceText = lang === 'Punjabi'
+            ? 'ਸਤਿ ਸ਼੍ਰੀ ਅਕਾਲ। ਪ੍ਰਾਣਾ ਅਨੁਸਾਰ ਅਗਲੇ 48 ਘੰਟਿਆਂ ਵਿੱਚ ਉੱਤਰ-ਪੱਛਮੀ ਹਵਾਵਾਂ ਕਰਕੇ ਧੂੰਆਂ ਦਿੱਲੀ ਵੱਲ ਵਧੇਗਾ। ਬਾਇਓ-ਡੀਕੰਪੋਜ਼ਰ ਦੀ ਵਰਤੋਂ ਕਰੋ।'
+            : 'नमस्कार। प्राणा प्रणाली के अनुसार अगले 48 घंटों तक वायु गुणवत्ता अति गंभीर श्रेणी में रहेगी। बाहर निकलने पर मास्क पहनें।';
+          out.innerHTML = `<strong>Synthesized Advisory (${lang}):</strong>\n${lastVoiceText}`;
+          btnSpeak.style.display = 'flex';
+        };
+      }
+
+      const btnSpeak = document.getElementById('btn-voice-speak');
+      if (btnSpeak) {
+        btnSpeak.onclick = () => {
+          if (!lastVoiceText) return;
+          const synth = window.speechSynthesis;
+          if (synth) {
+            synth.cancel();
+            const utter = new SpeechSynthesisUtterance(lastVoiceText);
+            utter.lang = document.getElementById('voice-lang').value === 'Punjabi' ? 'pa-IN' : 'hi-IN';
+            synth.speak(utter);
+          }
+        };
+      }
+    });
 
     window.onkeydown = (e) => {
       if (document.getElementById('pitch-modal').style.display === 'block') {
