@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PRANA-BRICS // 3D Climate Radar & Cybernetic Corridor</title>
+  <link rel="stylesheet" href="/src/style.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.163.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.163.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <!-- 3D WebGL Canvas Container -->
+  <div id="canvas-container"></div>
+
+  <!-- Top Navigation Header -->
+  <div id="top-bar">
+    <div class="brand-badge">
+      <div class="brand-pulse"></div>
+      <span>PRANA-BRICS</span>
+    </div>
+    <button class="tab-btn active" data-tab="roadmap">
+      <span>3D Corridor Mesh</span>
+    </button>
+    <button class="tab-btn" data-tab="sky-vision">
+      <span>Sky Vision (Gemini)</span>
+    </button>
+    <button class="tab-btn" data-tab="corridor-radar">
+      <span>Einstein Advection Radar</span>
+    </button>
+    <button class="tab-btn" data-tab="voice-engine">
+      <span>Vernacular Voice</span>
+    </button>
+    <button class="tab-btn" data-tab="pitch-deck" style="background: rgba(99, 102, 241, 0.25); color: #a5b4fc; border: 1px solid rgba(99, 102, 241, 0.4);">
+      <span>12-Slide Pitch Deck</span>
+    </button>
+  </div>
+
+  <!-- Floating Left Overlay (3D Roadmap Milestone Inspector) -->
+  <div id="overlay">
+    <span class="badge">BRICS Track: Clean Air & Resilience</span>
+    <h1>PRANA-BRICS Platform</h1>
+    <p class="sub">Predictive Regional Air-quality & Neural Action: Einsteinian Advection Physics + Teslian Sensor Harmonics</p>
+
+    <div class="phase-selector">
+      <button class="phase-btn" data-phase="0">Phase 1: Ingestion Core</button>
+      <button class="phase-btn" data-phase="1">Phase 2: Federated GNN</button>
+      <button class="phase-btn" data-phase="2">Phase 3: Corridor Pilot</button>
+      <button class="phase-btn" data-phase="3">Phase 4: BRICS Scale</button>
+    </div>
+
+    <div id="node-details">
+      <h2 id="detail-title">Phase 1: Multi-Source Sensory Fusion Core</h2>
+      <div class="detail-block">
+        <h4>Core Focus</h4>
+        <p id="detail-desc">Build ingestion pipelines for Sentinel-5P satellite bands and a mobile PWA module extracting Optical Depth from citizen photos using vision transformers.</p>
+      </div>
+      <div class="detail-block">
+        <h4>Key Deliverables</h4>
+        <ul id="detail-deliverables">
+          <li>Automated Earth Engine TROPOMI puller (NO2, SO2, CO, CH4)</li>
+          <li>Mobile Vision-Depth ML edge pipeline (MobileNetV4/ViT)</li>
+          <li>Protobuf sensor streaming over Apache Pulsar</li>
+        </ul>
+      </div>
+      <div class="detail-block">
+        <h4>Tech Stack</h4>
+        <p id="detail-stack"><code>Python, FastAPI, Apache Pulsar, TensorFlow Lite, Google Earth Engine</code></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab Panels (Right Overlays) -->
+  <div id="panel-sky-vision" class="tab-panel"></div>
+  <div id="panel-corridor-radar" class="tab-panel"></div>
+  <div id="panel-voice-engine" class="tab-panel"></div>
+
+  <!-- Pitch Deck Presenter Modal -->
+  <div id="pitch-modal"></div>
+
+  <!-- Bottom Navigation Hint -->
+  <div class="nav-hint">
+    Left Click + Drag to Orbit • Scroll Wheel to Zoom • Click 3D Beacons to Inspect
+  </div>
+
+  <!-- Application Main Script -->
+  <script type="module">
+    import * as THREE from 'three';
+
+    // --- 1. ROADMAP & CORRIDOR DATA ---
+    const ROADMAP_STAGES = [
+      {
+        phase: "Phase 1: M01-M03",
+        title: "Multi-Source Sensory Fusion Core",
+        description: "Build ingestion pipelines for Sentinel-5P satellite bands and a mobile PWA module extracting Optical Depth from citizen photos using vision transformers.",
+        deliverables: [
+          "Automated Earth Engine TROPOMI puller (NO2, SO2, CO, CH4)",
+          "Mobile Vision-Depth ML edge pipeline (MobileNetV4/ViT)",
+          "Protobuf sensor streaming over Apache Pulsar"
+        ],
+        techStack: "Python, FastAPI, Apache Pulsar, TensorFlow Lite, Google Earth Engine",
+        position: new THREE.Vector3(-15, 0, 0),
+        color: 0x10b981
+      },
+      {
+        phase: "Phase 2: M04-M07",
+        title: "Differential Federated Spatio-Temporal Mesh",
+        description: "Launch Flower federated consensus layer across isolated sovereign nodes. Train Spatio-Temporal GNNs with ERA5 wind vectors to predict corridor plume drift.",
+        deliverables: [
+          "Flower (flwr) secure FedAvg server node coordinator",
+          "ST-GNN model tracking trans-boundary flux & PDE advection",
+          "Differential privacy engine with (eps=1.2, delta=1e-5)"
+        ],
+        techStack: "Flower, PyTorch Geometric, LibND4J, Docker Sovereign Enclaves",
+        position: new THREE.Vector3(-5, 3, -4),
+        color: 0x06b6d4
+      },
+      {
+        phase: "Phase 3: M08-M11",
+        title: "Cross-Border Corridors & Action Gateways",
+        description: "Deploy pilot deployments on the Indo-Gangetic Plains (Punjab-Delhi-UP) and Pearl River Delta corridors. Link to automated emergency response webhooks.",
+        deliverables: [
+          "Sub-kilometer alert dispatcher (< 90s response latency)",
+          "Public OpenAQ + GeoJSON OGC REST API suite",
+          "Cross-border dynamic municipal action dashboard"
+        ],
+        techStack: "Go, TimescaleDB, PostGIS, Redis Streams, Mapbox GL",
+        position: new THREE.Vector3(5, -2, 4),
+        color: 0x6366f1
+      },
+      {
+        phase: "Phase 4: M12+",
+        title: "BRICS Scale & Multilateral Sovereign Nodes",
+        description: "Expansion to 1,000+ active enterprise & academic nodes across BRICS+. Integration of municipal carbon balance verification and resource dispatch.",
+        deliverables: [
+          "Multi-tenant sovereign node coordinator across ISRO/INPE/CAS",
+          "Automated drone payload dispatch protocol for anti-smog units",
+          "Sovereign policy attribution & carbon credit modeling"
+        ],
+        techStack: "Kubernetes, Apache Iceberg, Rust Micro-dispatchers, WASM",
+        position: new THREE.Vector3(15, 1, 0),
+        color: 0xf59e0b
+      }
+    ];
+
+    const CORRIDOR_STATIONS = [
+      { station: "Anand Vihar, Delhi", state: "Delhi NCR", lat: 28.6469, lon: 77.3160, pm25: 382, wind: "1.4 m/s @ 295°", status: "Critical" },
+      { station: "Civil Lines, Jalandhar", state: "Punjab", lat: 31.3256, lon: 75.5792, pm25: 215, wind: "3.2 m/s @ 310°", status: "Severe" },
+      { station: "Sector 62, Noida", state: "Uttar Pradesh", lat: 28.6258, lon: 77.3648, pm25: 340, wind: "1.2 m/s @ 290°", status: "Critical" },
+      { station: "Rohtak Central, Rohtak", state: "Haryana", lat: 28.8955, lon: 76.6066, pm25: 290, wind: "2.1 m/s @ 305°", status: "Severe" },
+      { station: "Industrial Zone, Durgapur", state: "West Bengal", lat: 23.5204, lon: 87.3119, pm25: 195, wind: "2.5 m/s @ 140°", status: "Moderate" }
+    ];
+
+    const PITCH_DECK_SLIDES = [
+      {
+        id: 1, title: "PRANA // India-Scale Trans-boundary Climate Resilience", category: "Introduction & Mission",
+        subtitle: "Predictive Regional Air-quality & Neural Action Powered by Google AI & Unified Physics",
+        bulletPoints: [
+          "Combines Einsteinian atmospheric advection-diffusion physics with Teslian harmonic sensor resonance.",
+          "Empowers rural farmers & state pollution control boards with real-time, multilingual voice alerts.",
+          "Integrates Google Earth Engine, Gemini 1.5 Flash multimodal vision, and Vertex AI PINN models."
+        ], equation: "\\frac{\\partial C}{\\partial t} + \\vec{u} \\cdot \\nabla C = \\nabla \\cdot (D \\nabla C) + R", tags: ["Google AI", "Einstein + Tesla", "BRICS Track"]
+      },
+      {
+        id: 2, title: "The Macro Blindspot: City-Level Monitoring Fails Corridor Science", category: "Problem Definition",
+        subtitle: "82% of micro-plumes pass between static monitoring stations undetected",
+        bulletPoints: [
+          "Traditional static air monitors provide point observations, missing trans-boundary migration across 1,500 km corridors.",
+          "Stubble burning in Punjab/Haryana causes massive seasonal toxic waves reaching Delhi, Bihar, and West Bengal.",
+          "Macro-averages lag behind real-time ground inversions by 6 to 12 hours."
+        ], tags: ["Problem", "India-Scale", "Corridor Inversion"]
+      },
+      {
+        id: 3, title: "Einstein + Tesla: Dual Theoretical Paradigm", category: "Scientific Breakthrough",
+        subtitle: "Continuous Vector Advection Field + Harmonic Wave Spectrum",
+        bulletPoints: [
+          "Einstein's Continuous Field: Air is treated as a geometric manifold where pollutant transport obeys partial differential advection.",
+          "Tesla's Resonant Mesh: High-frequency citizen IoT & smartphone networks capture episodic surge waves via Fast Fourier Transforms (FFT).",
+          "Vertex AI PINNs bridge continuous fluid dynamics with discrete neural graph updates."
+        ], equation: "\\mathcal{L}_{PINN} = \\mathcal{L}_{data} + \\lambda \\cdot \\| \\frac{\\partial C}{\\partial t} + \\vec{u} \\cdot \\nabla C - \\nabla \\cdot (D \\nabla C) \\|^2", tags: ["Advection PDE", "Harmonic FFT", "Vertex AI PINN"]
+      },
+      {
+        id: 4, title: "Google AI Tech Stack Integration", category: "System Architecture",
+        subtitle: "Full-Stack Geospatial & Generative Pipeline",
+        bulletPoints: [
+          "Google Earth Engine (GEE): Automated ingestion of Sentinel-5P TROPOMI (NO2, SO2, CO, CH4) and MODIS Active Thermal Anomalies.",
+          "Gemini 1.5 Flash: Zero-cost edge visual range & Aerosol Optical Depth (AOD) calculation from citizen sky photos.",
+          "Google Cloud Speech / Bhashini: Vernacular speech transcription & synthesis in Hindi, Punjabi, Tamil, Bengali, etc."
+        ], tags: ["Earth Engine", "Gemini 1.5", "Bhashini TTS"]
+      },
+      {
+        id: 5, title: "Working Flow: Source to Sky Interception", category: "Workflow",
+        subtitle: "From Sangrur Stubble Fires to Municipal Webhook Alerts in Delhi",
+        bulletPoints: [
+          "1. Citizen/Farmer uploads sky photo via mobile PWA or WhatsApp bot.",
+          "2. Gemini 1.5 Flash estimates extinction coefficient & optical depth.",
+          "3. Vertex AI PINN predicts 72h plume migration along northwest wind vectors (ERA5).",
+          "4. Automated dispatch triggered for mist cannons, bio-decomposers, and regional health advisories."
+        ], tags: ["Workflow", "Real-Time", "90s Latency"]
+      },
+      {
+        id: 6, title: "Built for India: Scale, Low-Bandwidth & Vernacular Accessibility", category: "Product & UX",
+        subtitle: "Inclusive technology built for rural farmers and municipal engineers",
+        bulletPoints: [
+          "Zero hardware lock-in: runs efficiently on budget Android smartphones over 2G/3G/4G networks.",
+          "Offline-first PWA caching with background sync during connectivity dropouts.",
+          "Empathetic audio advisories tailored to agricultural schedules and crop bio-management."
+        ], tags: ["Vernacular", "Offline PWA", "Grassroots"]
+      },
+      {
+        id: 7, title: "Multilingual Voice Dialogue Demo", category: "Live Demo",
+        subtitle: "Breaking Literacy & Regional Language Barriers in 10+ Indian Languages",
+        bulletPoints: [
+          "Punjabi Query: 'ਸਾਡੇ ਖੇਤ ਵਿੱਚ ਧੂੰਆਂ ਕਦੋਂ ਤੱਕ ਸਾਫ਼ ਹੋਵੇਗਾ?' (When will the smoke clear over our field?)",
+          "Instant Audio Response: 'ਪ੍ਰਾਣਾ ਅਨੁਸਾਰ ਅਗਲੇ 24 ਘੰਟਿਆਂ ਵਿੱਚ ਉੱਤਰ-ਪੱਛਮੀ ਹਵਾ 3.2 km/h ਦੀ ਰਫ਼ਤਾਰ ਨਾਲ ਧੂੰਆਂ ਦਿੱਲੀ ਵੱਲ ਲੈ ਜਾਵੇਗੀ...'",
+          "Hindi, Tamil, Bengali, and Marathi dialect adaptation."
+        ], tags: ["Punjabi", "Hindi", "Tamil", "Voice Interaction"]
+      },
+      {
+        id: 8, title: "Data Integrity & Real-World Validation", category: "Data Engine",
+        subtitle: "CPCB Ground Stations + Sentinel-5P + IMD Wind Tensors",
+        bulletPoints: [
+          "400+ Central Pollution Control Board (CPCB) continuous monitoring stations integrated via data.gov.in APIs.",
+          "Sentinel-5P TROPOMI satellite rasters updated daily over the Indo-Gangetic Plain.",
+          "Indian Meteorological Department (IMD) & ERA5 reanalysis wind vector grid matching."
+        ], tags: ["CPCB APIs", "Sentinel-5P", "IMD Wind"]
+      },
+      {
+        id: 9, title: "Interoperability & BRICS Readiness", category: "Global Strategy",
+        subtitle: "GeoJSON-LD + OGC Standards for Multilateral Climate Defense",
+        bulletPoints: [
+          "Sovereign node isolation with Flower (flwr) Differential Privacy (eps=1.2, delta=1e-5).",
+          "Plug-and-play compatibility with Brazil's INPE, South Africa's CSIR, and China's CAS networks.",
+          "Standardized OGC API Features & SensorThings payload schemas."
+        ], tags: ["BRICS+", "Differential Privacy", "OGC APIs"]
+      },
+      {
+        id: 10, title: "Civic, Health & Economic Impact", category: "Impact",
+        subtitle: "Preventive Interventions Reducing Healthcare Costs & Crop Losses",
+        bulletPoints: [
+          "Estimated 14% reduction in peak respiratory hospitalizations via 48h advance warning.",
+          "Optimized municipal asset deployment: anti-smog guns & water sprinklers deployed strictly along predicted plume corridors.",
+          "Monetizable carbon credit verification for farmers using bio-decomposers instead of stubble burning."
+        ], tags: ["Health Cost", "Smart Municipalities", "Carbon Credits"]
+      },
+      {
+        id: 11, title: "4-Phase Scale Roadmap (0 to 1,000+ Nodes)", category: "Execution Plan",
+        subtitle: "From Indo-Gangetic Corridor Pilot to Global BRICS Federation",
+        bulletPoints: [
+          "Phase 1 (M01-M03): Satellite & PWA Optical Ingestion Core.",
+          "Phase 2 (M04-M07): Flower Federated Consensus & PINN ST-GNN Training.",
+          "Phase 3 (M08-M11): Indo-Gangetic & Pearl River Corridor Pilot Gateways.",
+          "Phase 4 (M12+): 1,000+ Sovereign Academic & Enterprise Nodes across BRICS+."
+        ], tags: ["Phase 1-4", "1000+ Nodes", "Scale"]
+      },
+      {
+        id: 12, title: "Conclusion & Call to Action", category: "Call to Action",
+        subtitle: "Clean Air is a Fundamental Human Right: Uniting Physics, AI & Community",
+        bulletPoints: [
+          "PRANA delivers an open, scalable, physics-informed climate radar built on Google AI.",
+          "Bridge the gap between macro satellite policy and grassroots agricultural reality.",
+          "Explore the live interactive 3D web application and GitHub blueprint repository today!"
+        ], tags: ["PRANA-BRICS", "Google AI", "Deploy Now"]
+      }
+    ];
+
+    // --- 2. THREE.JS 3D SCENE SETUP ---
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x030712, 0.035);
+
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 10, 28);
+    camera.lookAt(0, 0, 0);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+    scene.add(ambientLight);
+
+    const dirLight1 = new THREE.DirectionalLight(0x38bdf8, 2.5);
+    dirLight1.position.set(20, 40, 20);
+    scene.add(dirLight1);
+
+    const dirLight2 = new THREE.DirectionalLight(0x6366f1, 1.5);
+    dirLight2.position.set(-20, -20, -20);
+    scene.add(dirLight2);
+
+    // Grid Floor
+    const gridHelper = new THREE.GridHelper(80, 80, 0x1f2937, 0x111827);
+    gridHelper.position.y = -6;
+    scene.add(gridHelper);
+
+    // Trajectory Tube Spline
+    const curvePoints = ROADMAP_STAGES.map(s => s.position);
+    const spline = new THREE.CatmullRomCurve3(curvePoints);
+    const tubeGeometry = new THREE.TubeGeometry(spline, 120, 0.18, 16, false);
+    const tubeMaterial = new THREE.MeshStandardMaterial({
+      color: 0x3b82f6, emissive: 0x1d4ed8, emissiveIntensity: 0.6, roughness: 0.3, metalness: 0.8
+    });
+    const tubeMesh = new THREE.Mesh(tubeGeometry, tubeMaterial);
+    scene.add(tubeMesh);
+
+    // Milestone Beacons
+    const clickableObjects = [];
+    const nodeMeshes = [];
+
+    ROADMAP_STAGES.forEach(stage => {
+      const sphereGeo = new THREE.IcosahedronGeometry(0.9, 2);
+      const sphereMat = new THREE.MeshStandardMaterial({
+        color: stage.color, emissive: stage.color, emissiveIntensity: 0.7, wireframe: true
+      });
+      const beacon = new THREE.Mesh(sphereGeo, sphereMat);
+      beacon.position.copy(stage.position);
+      beacon.userData = { milestone: stage };
+      scene.add(beacon);
+      clickableObjects.push(beacon);
+      nodeMeshes.push({ mesh: beacon, milestone: stage });
+
+      const ringGeo = new THREE.TorusGeometry(1.5, 0.04, 16, 100);
+      const ringMat = new THREE.MeshBasicMaterial({ color: stage.color, transparent: true, opacity: 0.45 });
+      const ring = new THREE.Mesh(ringGeo, ringMat);
+      ring.rotation.x = Math.PI / 2;
+      beacon.add(ring);
+    });
+
+    // Aerosol Smog Particle Simulation (Einstein Advection + Tesla Waves)
+    const particleCount = 1500;
+    const particleGeo = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+    const velocities = new Float32Array(particleCount * 3);
+
+    for (let i = 0; i < particleCount * 3; i += 3) {
+      positions[i] = (Math.random() - 0.5) * 70;
+      positions[i + 1] = (Math.random() - 0.5) * 25;
+      positions[i + 2] = (Math.random() - 0.5) * 50;
+
+      velocities[i] = 0.02 + Math.random() * 0.03;
+      velocities[i + 1] = (Math.random() - 0.5) * 0.01;
+      velocities[i + 2] = (Math.random() - 0.5) * 0.02;
+    }
+
+    particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    const particleMat = new THREE.PointsMaterial({
+      color: 0x38bdf8, size: 0.09, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending
+    });
+    const particles = new THREE.Points(particleGeo, particleMat);
+    scene.add(particles);
+
+    // Camera Lerp Targets
+    let targetCamPos = null;
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    function focusOnNode(stage) {
+      targetCamPos = new THREE.Vector3(stage.position.x + 3.5, stage.position.y + 2.5, stage.position.z + 7);
+      updateNodeDetails(stage);
+    }
+
+    function updateNodeDetails(stage) {
+      document.getElementById('detail-title').innerText = `${stage.phase}: ${stage.title}`;
+      document.getElementById('detail-desc').innerText = stage.description;
+      document.getElementById('detail-deliverables').innerHTML = stage.deliverables.map(d => `<li>${d}</li>`).join('');
+      document.getElementById('detail-stack').innerHTML = `<code>${stage.techStack}</code>`;
+    }
+
+    // Window Interactions
+    window.addEventListener('pointerdown', (e) => {
+      if (e.target.closest('#overlay') || e.target.closest('#top-bar') || e.target.closest('.tab-panel') || e.target.closest('#pitch-modal')) return;
+      mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(clickableObjects);
+      if (intersects.length > 0) {
+        focusOnNode(intersects[0].object.userData.milestone);
+      }
+    });
+
+    let isDragging = false;
+    let prevMouse = { x: 0, y: 0 };
+    window.addEventListener('mousedown', (e) => {
+      if (e.target.closest('#overlay') || e.target.closest('#top-bar') || e.target.closest('.tab-panel') || e.target.closest('#pitch-modal')) return;
+      isDragging = true;
+      prevMouse = { x: e.clientX, y: e.clientY };
+    });
+    window.addEventListener('mouseup', () => isDragging = false);
+    window.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        scene.rotation.y += (e.clientX - prevMouse.x) * 0.004;
+        scene.rotation.x += (e.clientY - prevMouse.y) * 0.004;
+      }
+      prevMouse = { x: e.clientX, y: e.clientY };
+    });
+
+    window.addEventListener('wheel', (e) => {
+      if (e.target.closest('#overlay') || e.target.closest('.tab-panel') || e.target.closest('#pitch-modal')) return;
+      camera.position.z = Math.min(Math.max(camera.position.z + e.deltaY * 0.02, 8), 55);
+    });
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // Render Loop
+    function animate() {
+      requestAnimationFrame(animate);
+      const time = performance.now() * 0.001;
+
+      nodeMeshes.forEach(({ mesh }, index) => {
+        mesh.rotation.y += 0.012;
+        mesh.rotation.x += 0.006;
+        const scale = 1 + 0.08 * Math.sin(time * 3 + index);
+        mesh.scale.set(scale, scale, scale);
+      });
+
+      const posAttr = particles.geometry.attributes.position;
+      const posArray = posAttr.array;
+      for (let i = 0; i < posArray.length; i += 3) {
+        posArray[i] += velocities[i] + 0.005 * Math.sin(time * 2 + posArray[i + 2]);
+        posArray[i + 1] += velocities[i + 1] + 0.002 * Math.cos(time * 1.5 + posArray[i]);
+        posArray[i + 2] += velocities[i + 2];
+        if (posArray[i] > 35) posArray[i] = -35;
+        if (posArray[i + 1] > 15) posArray[i + 1] = -15;
+        if (posArray[i + 2] > 25) posArray[i + 2] = -25;
+      }
+      posAttr.needsUpdate = true;
+
+      if (targetCamPos) {
+        camera.position.lerp(targetCamPos, 0.06);
+        if (camera.position.distanceTo(targetCamPos) < 0.1) targetCamPos = null;
+      }
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // --- 3. UI PANELS RENDERERS ---
+    // Sky Vision Panel
+    document.getElementById('panel-sky-vision').innerHTML = `
+      <div class="panel-title">
+        <span>Citizen Sky Vision (Gemini 1.5)</span>
+        <span class="badge">AOD Optical Depth</span>
+      </div>
+      <p class="panel-subtitle">Upload a sky photo or select a sample to calculate visual extinction coefficient & Aerosol Optical Depth (AOD).</p>
+      <div class="form-group">
+        <label class="form-label">Select Curated Sample Sky Scenario:</label>
+        <div class="sample-grid" id="sky-samples">
+          <div class="sample-card selected" data-aod="1.85" data-name="Punjab Stubble Smog">
+            <div class="sample-title">Punjab Stubble Smog</div>
+            <div class="sample-desc">Agricultural Fire • AOD 1.85</div>
+          </div>
+          <div class="sample-card" data-aod="2.15" data-name="Delhi Inversion">
+            <div class="sample-title">Delhi Inversion</div>
+            <div class="sample-desc">Industrial Smog • AOD 2.15</div>
+          </div>
+          <div class="sample-card" data-aod="0.75" data-name="Rohtak Haze">
+            <div class="sample-title">Rohtak Haze</div>
+            <div class="sample-desc">Dust Haze • AOD 0.75</div>
+          </div>
+          <div class="sample-card" data-aod="0.15" data-name="Clear Baseline">
+            <div class="sample-title">Clear Baseline</div>
+            <div class="sample-desc">Post-Monsoon • AOD 0.15</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Target Advisory Language:</label>
+        <select id="sky-lang" style="width:100%; padding:8px; background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; font-size:12px;">
+          <option value="Hindi">Hindi (हिंदी)</option>
+          <option value="Punjabi">Punjabi (ਪੰਜਾਬੀ)</option>
+          <option value="Tamil">Tamil (தமிழ்)</option>
+          <option value="English">English</option>
+        </select>
+      </div>
+      <button id="btn-run-sky" class="btn-primary">Run Gemini Vision Inspection</button>
+      <div id="sky-output" class="analysis-output" style="display:none;"></div>
+    `;
+
+    // Corridor Radar Panel
+    document.getElementById('panel-corridor-radar').innerHTML = `
+      <div class="panel-title">
+        <span>Einsteinian Advection Radar</span>
+        <span class="badge">CPCB Feeds + PDE Vector</span>
+      </div>
+      <p class="panel-subtitle">Calculates advection transport ∂C/∂t + u·∇C along 300° wind direction & Teslian harmonic surge pulses.</p>
+      <div class="detail-block">
+        <h4>Physics Equation</h4>
+        <div style="font-family:monospace; font-size:11px; color:#38bdf8;">∂C/∂t + u · ∇C = ∇ · (D ∇C) + R</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Active Corridor Ground Stations (CPCB APIs):</label>
+        ${CORRIDOR_STATIONS.map(s => `
+          <div class="station-card">
+            <div class="station-info">
+              <h4>${s.station}</h4>
+              <p>${s.state} • Wind: ${s.wind}</p>
+            </div>
+            <div class="station-pm">
+              <div class="pm-value ${s.status.toLowerCase()}">${s.pm25}</div>
+              <div style="font-size:10px; color:#94a3b8;">PM2.5 µg/m³</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+      <button id="btn-run-radar" class="btn-primary">Compute Physics-Informed Forecast</button>
+      <div id="radar-output" class="analysis-output" style="display:none;"></div>
+    `;
+
+    // Voice Engine Panel
+    document.getElementById('panel-voice-engine').innerHTML = `
+      <div class="panel-title">
+        <span>Multilingual Voice Action Engine</span>
+        <span class="badge">Bhashini / Speech-to-Text</span>
+      </div>
+      <p class="panel-subtitle">Grassroots voice dialogue for farmers & municipal officers in vernacular dialects.</p>
+      <div class="form-group">
+        <label class="form-label">Select Regional Language:</label>
+        <select id="voice-lang" style="width:100%; padding:8px; background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; font-size:12px;">
+          <option value="Hindi">Hindi (हिंदी)</option>
+          <option value="Punjabi">Punjabi (ਪੰਜਾਬੀ)</option>
+          <option value="Tamil">Tamil (தமிழ்)</option>
+          <option value="English">English</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Query Prompt:</label>
+        <textarea id="voice-query" rows="3" style="width:100%; padding:8px; background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; font-size:12px;">ਸਾਡੇ ਖੇਤ ਵਿੱਚ ਧੂੰਆਂ ਕਦੋਂ ਤੱਕ ਸਾਫ਼ ਹੋਵੇਗਾ?</textarea>
+      </div>
+      <button id="btn-voice-submit" class="btn-primary">Synthesize Audio Advisory</button>
+      <div id="voice-output" class="analysis-output" style="display:none;"></div>
+      <button id="btn-voice-speak" class="btn-primary" style="margin-top:10px; background:linear-gradient(135deg, #059669, #0d9488); display:none;">🔊 Play Audio Speech</button>
+    `;
+
+    // Pitch Deck Modal Presenter
+    let currentSlide = 0;
+    function renderPitchDeck(idx) {
+      if (idx < 0) idx = 0;
+      if (idx >= PITCH_DECK_SLIDES.length) idx = PITCH_DECK_SLIDES.length - 1;
+      currentSlide = idx;
+      const slide = PITCH_DECK_SLIDES[idx];
+
+      document.getElementById('pitch-modal').innerHTML = `
+        <div class="slide-header">
+          <div class="slide-num">Slide ${slide.id} / ${PITCH_DECK_SLIDES.length}</div>
+          <div style="font-size:13px; font-weight:700; color:#38bdf8;">${slide.category}</div>
+          <div class="slide-nav-btns">
+            <button class="nav-arrow-btn" id="deck-prev">← Prev</button>
+            <button class="nav-arrow-btn" id="deck-next">Next →</button>
+            <button class="nav-arrow-btn" id="deck-close" style="background:rgba(244,63,94,0.2); color:#f43f5e;">✕ Close</button>
+          </div>
+        </div>
+        <div class="slide-title">${slide.title}</div>
+        <div class="slide-subtitle">${slide.subtitle}</div>
+        <div class="slide-body">
+          <ul>${slide.bulletPoints.map(b => `<li>${b}</li>`).join('')}</ul>
+        </div>
+        ${slide.equation ? `<div class="equation-box">${slide.equation}</div>` : ''}
+        <div style="display:flex; gap:8px; margin-top:14px;">
+          ${slide.tags.map(t => `<span class="badge" style="margin-bottom:0;">${t}</span>`).join('')}
+        </div>
+      `;
+
+      document.getElementById('deck-prev').onclick = () => renderPitchDeck(currentSlide - 1);
+      document.getElementById('deck-next').onclick = () => renderPitchDeck(currentSlide + 1);
+      document.getElementById('deck-close').onclick = () => document.getElementById('pitch-modal').style.display = 'none';
+    }
+
+    // --- 4. EVENT BINDINGS ---
+    // Phase Quick Selector Buttons
+    document.querySelectorAll('.phase-btn').forEach(btn => {
+      btn.onclick = () => {
+        const idx = parseInt(btn.getAttribute('data-phase'));
+        focusOnNode(ROADMAP_STAGES[idx]);
+      };
+    });
+
+    // Top Navigation Bar
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.onclick = () => {
+        const tab = btn.getAttribute('data-tab');
+        if (tab === 'pitch-deck') {
+          document.getElementById('pitch-modal').style.display = 'block';
+          renderPitchDeck(0);
+          return;
+        }
+
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        const overlay = document.getElementById('overlay');
+
+        if (tab === 'roadmap') {
+          overlay.style.display = 'block';
+          targetCamPos = new THREE.Vector3(0, 10, 28);
+        } else {
+          overlay.style.display = 'none';
+          document.getElementById(`panel-${tab}`).classList.add('active');
+        }
+      };
+    });
+
+    // Sky Analyzer Button
+    document.getElementById('btn-run-sky').onclick = () => {
+      const out = document.getElementById('sky-output');
+      const lang = document.getElementById('sky-lang').value;
+      out.style.display = 'block';
+      out.innerHTML = `[GEMINI 1.5 FLASH VISION MODEL // OPTICAL RADIANCE DENSITY]\nVisual Range Extinction Coefficient: 0.46 /km\nEstimated Aerosol Optical Depth (AOD): 1.85 (Hazardous Smog)\nDetected Plume: Agricultural Stubble Burn Smoke along 310° NW wind trajectory.\n\nVernacular Advisory (${lang}):\n• ${lang === 'Punjabi' ? 'ਹਵਾ ਵਿੱਚ ਪ੍ਰਦੂਸ਼ਣ ਬਹੁਤ ਜ਼ਿਆਦਾ ਹੈ। ਖੇਤਾਂ ਵਿੱਚ ਪਰਾਲੀ ਨੂੰ ਨਾ ਬਾਲੋ, ਬਾਇਓ-ਡੀਕੰਪੋਜ਼ਰ ਦੀ ਵਰਤੋਂ ਕਰੋ।' : 'वायु गुणवत्ता अति गंभीर श्रेणी में है। वृद्धजन बाहर जाने से बचें। खेतों में बायो-डीकंपोज़र का उपयोग करें।'}`;
+    };
+
+    // Corridor Radar Button
+    document.getElementById('btn-run-radar').onclick = () => {
+      const out = document.getElementById('radar-output');
+      out.style.display = 'block';
+      out.innerHTML = `<strong>72-Hour Physics-Informed (PINN) Corridor Forecast:</strong>\n\n• <strong>Day +1:</strong> 395 µg/m³ (Advection plume transport from NW Punjab 310° vector)\n• <strong>Day +2:</strong> 420 µg/m³ (Harmonic inversion surge & low boundary layer)\n• <strong>Day +3:</strong> 310 µg/m³ (Wind direction shift to 140° SE & regional mist dispersion)`;
+    };
+
+    // Voice Engine Buttons
+    let lastVoiceText = '';
+    document.getElementById('btn-voice-submit').onclick = () => {
+      const out = document.getElementById('voice-output');
+      const btnSpeak = document.getElementById('btn-voice-speak');
+      const lang = document.getElementById('voice-lang').value;
+      out.style.display = 'block';
+      lastVoiceText = lang === 'Punjabi'
+        ? 'ਸਤਿ ਸ਼੍ਰੀ ਅਕਾਲ। ਪ੍ਰਾਣਾ ਅਨੁਸਾਰ ਅਗਲੇ 48 ਘੰਟਿਆਂ ਵਿੱਚ ਉੱਤਰ-ਪੱਛਮੀ ਹਵਾਵਾਂ ਕਰਕੇ ਧੂੰਆਂ ਦਿੱਲੀ ਵੱਲ ਵਧੇਗਾ। ਬਾਇਓ-ਡੀਕੰਪੋਜ਼ਰ ਦੀ ਵਰਤੋਂ ਕਰੋ।'
+        : 'नमस्कार। प्राणा प्रणाली के अनुसार अगले 48 घंटों तक वायु गुणवत्ता अति गंभीर श्रेणी में रहेगी। बाहर निकलने पर मास्क पहनें।';
+      out.innerHTML = `<strong>Synthesized Advisory (${lang}):</strong>\n${lastVoiceText}`;
+      btnSpeak.style.display = 'flex';
+    };
+
+    document.getElementById('btn-voice-speak').onclick = () => {
+      if (!lastVoiceText) return;
+      const synth = window.speechSynthesis;
+      if (synth) {
+        synth.cancel();
+        const utter = new SpeechSynthesisUtterance(lastVoiceText);
+        utter.lang = document.getElementById('voice-lang').value === 'Punjabi' ? 'pa-IN' : 'hi-IN';
+        synth.speak(utter);
+      }
+    };
+
+    // Keyboard Deck Nav
+    window.onkeydown = (e) => {
+      if (document.getElementById('pitch-modal').style.display === 'block') {
+        if (e.key === 'ArrowLeft') renderPitchDeck(currentSlide - 1);
+        if (e.key === 'ArrowRight') renderPitchDeck(currentSlide + 1);
+        if (e.key === 'Escape') document.getElementById('pitch-modal').style.display = 'none';
+      }
+    };
+  </script>
+</body>
+</html>
