@@ -23,9 +23,9 @@ export class CorridorScene {
     this.container = document.getElementById(containerId)!;
     this.onSelectMilestoneCallback = onSelectMilestone;
 
-    // --- FIFA 2026 Nature Sky Scene & Fog ---
+    // --- Terafab Deep Cosmic Black Scene & Fog ---
     this.scene = new THREE.Scene();
-    this.scene.fog = new THREE.FogExp2(0xe0f2fe, 0.025);
+    this.scene.fog = new THREE.FogExp2(0x000000, 0.035);
 
     // --- Camera ---
     this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -51,21 +51,21 @@ export class CorridorScene {
   }
 
   private initLighting() {
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
     this.scene.add(ambientLight);
 
-    const sunLight = new THREE.DirectionalLight(0xffffff, 2.5);
-    sunLight.position.set(30, 50, 30);
-    this.scene.add(sunLight);
+    const dirLight1 = new THREE.DirectionalLight(0x38bdf8, 2.5);
+    dirLight1.position.set(20, 40, 20);
+    this.scene.add(dirLight1);
 
-    const cyanLight = new THREE.DirectionalLight(0x06b6d4, 1.2);
-    cyanLight.position.set(-20, -10, -20);
-    this.scene.add(cyanLight);
+    const dirLight2 = new THREE.DirectionalLight(0xffffff, 1.5);
+    dirLight2.position.set(-20, -20, -20);
+    this.scene.add(dirLight2);
   }
 
   private initGrid() {
-    // FIFA 2026 Emerald Stadium Pitch Grid
-    const gridHelper = new THREE.GridHelper(80, 80, 0x10b981, 0xa7f3d0);
+    // Terafab 12-Column Structural Grid Lines
+    const gridHelper = new THREE.GridHelper(80, 80, 0x1f1f1f, 0x141414);
     gridHelper.position.y = -6;
     this.scene.add(gridHelper);
   }
@@ -74,14 +74,14 @@ export class CorridorScene {
     const curvePoints = ROADMAP_STAGES.map(s => s.position);
     const spline = new THREE.CatmullRomCurve3(curvePoints);
     
-    // Core trajectory tube (Electric Turquoise & Emerald Glow)
-    const tubeGeometry = new THREE.TubeGeometry(spline, 120, 0.22, 16, false);
+    // Core trajectory tube (Glow White & Cyan)
+    const tubeGeometry = new THREE.TubeGeometry(spline, 120, 0.18, 16, false);
     const tubeMaterial = new THREE.MeshStandardMaterial({
-      color: 0x0284c7,
-      emissive: 0x059669,
-      emissiveIntensity: 0.5,
+      color: 0xffffff,
+      emissive: 0x38bdf8,
+      emissiveIntensity: 0.6,
       roughness: 0.2,
-      metalness: 0.7
+      metalness: 0.8
     });
     const tubeMesh = new THREE.Mesh(tubeGeometry, tubeMaterial);
     this.scene.add(tubeMesh);
@@ -89,11 +89,11 @@ export class CorridorScene {
 
   private initMilestoneBeacons() {
     ROADMAP_STAGES.forEach((stage) => {
-      const sphereGeo = new THREE.IcosahedronGeometry(1.0, 2);
+      const sphereGeo = new THREE.IcosahedronGeometry(0.9, 2);
       const sphereMat = new THREE.MeshStandardMaterial({
         color: stage.color,
         emissive: stage.color,
-        emissiveIntensity: 0.6,
+        emissiveIntensity: 0.7,
         wireframe: true
       });
       const beacon = new THREE.Mesh(sphereGeo, sphereMat);
@@ -104,11 +104,11 @@ export class CorridorScene {
       this.clickableObjects.push(beacon);
       this.nodeMeshes.push({ mesh: beacon, milestone: stage });
 
-      const ringGeo = new THREE.TorusGeometry(1.6, 0.05, 16, 100);
+      const ringGeo = new THREE.TorusGeometry(1.5, 0.04, 16, 100);
       const ringMat = new THREE.MeshBasicMaterial({
         color: stage.color,
         transparent: true,
-        opacity: 0.6
+        opacity: 0.45
       });
       const ring = new THREE.Mesh(ringGeo, ringMat);
       ring.rotation.x = Math.PI / 2;
@@ -117,13 +117,13 @@ export class CorridorScene {
   }
 
   private initParticleField() {
-    const count = 1800;
+    const count = 1500;
     const geometry = new THREE.BufferGeometry();
     this.particlePositions = new Float32Array(count * 3);
     this.particleVelocities = new Float32Array(count * 3);
 
     for (let i = 0; i < count * 3; i += 3) {
-      this.particlePositions[i] = (Math.random() - 0.5) * 75;
+      this.particlePositions[i] = (Math.random() - 0.5) * 70;
       this.particlePositions[i + 1] = (Math.random() - 0.5) * 25;
       this.particlePositions[i + 2] = (Math.random() - 0.5) * 50;
 
@@ -135,10 +135,11 @@ export class CorridorScene {
     geometry.setAttribute('position', new THREE.BufferAttribute(this.particlePositions, 3));
 
     const material = new THREE.PointsMaterial({
-      color: 0x059669,
-      size: 0.12,
+      color: 0x38bdf8,
+      size: 0.09,
       transparent: true,
-      opacity: 0.65
+      opacity: 0.55,
+      blending: THREE.AdditiveBlending
     });
 
     this.particles = new THREE.Points(geometry, material);

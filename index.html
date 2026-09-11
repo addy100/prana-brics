@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PRANA-BRICS // FIFA 2026 Nature Light Climate Corridor</title>
+  <title>PRANA // Terafab Engineering Ecosystem</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@500;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Expanded:wght@500;600&family=Fira+Code:wght@500;700&family=Inter+Tight:wght@300;400;500;600&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600&family=Unbounded:wght@500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/src/style.css" />
   <script type="importmap">
     {
@@ -21,40 +21,40 @@
   <!-- 3D WebGL Canvas Container -->
   <div id="canvas-container"></div>
 
-  <!-- Top Navigation Header (FIFA 2026 Vibrant Theme) -->
+  <!-- Top Navigation Header (Terafab Minimalist Theme) -->
   <div id="top-bar">
     <div class="brand-badge">
       <div class="brand-pulse"></div>
-      <span>PRANA-BRICS // 2026</span>
+      <span>PRANA-BRICS</span>
     </div>
     <button class="tab-btn active" data-tab="roadmap">
-      <span>⚽ 3D Corridor Mesh</span>
+      <span>Corridor Mesh</span>
     </button>
     <button class="tab-btn" data-tab="sky-vision">
-      <span>🌅 Sky Vision (Gemini)</span>
+      <span>Sky Vision (Gemini 1.5)</span>
     </button>
     <button class="tab-btn" data-tab="corridor-radar">
-      <span>⚡ Einstein Advection Radar</span>
+      <span>Einstein Radar</span>
     </button>
     <button class="tab-btn" data-tab="voice-engine">
-      <span>🗣️ Vernacular Voice</span>
+      <span>Vernacular Engine</span>
     </button>
-    <button class="tab-btn" data-tab="pitch-deck" style="background: linear-gradient(135deg, #eab308, #d97706); color: #ffffff; box-shadow: 0 4px 14px rgba(217, 119, 6, 0.3);">
-      <span>🏆 12-Slide Pitch Deck</span>
+    <button class="tab-btn" data-tab="pitch-deck" style="background: rgba(255,255,255,0.12); color: #ffffff;">
+      <span>Pitch Deck</span>
     </button>
   </div>
 
   <!-- Floating Left Overlay (3D Roadmap Milestone Inspector) -->
   <div id="overlay">
     <span class="badge">BRICS Track: Clean Air & Resilience</span>
-    <h1>PRANA-BRICS Platform</h1>
-    <p class="sub">Predictive Regional Air-quality & Neural Action: Einsteinian Continuous Vector Advection + Teslian Sensor Harmonics</p>
+    <h1>PRANA Platform</h1>
+    <p class="sub">Predictive Regional Air-quality & Neural Action — Combining Einsteinian Vector Advection & Teslian Sensor Resonance</p>
 
     <div class="phase-selector">
-      <button class="phase-btn" data-phase="0">🌱 Phase 1: Ingestion Core</button>
-      <button class="phase-btn" data-phase="1">🌐 Phase 2: Federated GNN</button>
-      <button class="phase-btn" data-phase="2">🚀 Phase 3: Corridor Pilot</button>
-      <button class="phase-btn" data-phase="3">🏆 Phase 4: BRICS Scale</button>
+      <button class="phase-btn" data-phase="0">Phase 1: Ingestion Core</button>
+      <button class="phase-btn" data-phase="1">Phase 2: Federated GNN</button>
+      <button class="phase-btn" data-phase="2">Phase 3: Corridor Pilot</button>
+      <button class="phase-btn" data-phase="3">Phase 4: BRICS Scale</button>
     </div>
 
     <div id="node-details">
@@ -88,7 +88,7 @@
 
   <!-- Bottom Navigation Hint -->
   <div class="nav-hint">
-    ⚽ Left Click + Drag to Orbit • Scroll Wheel to Zoom • Click 3D Beacons to Focus
+    Left Click + Drag to Orbit • Scroll Wheel to Zoom • Click Beacons to Focus
   </div>
 
   <!-- Three.js Engine & Application Logic -->
@@ -108,7 +108,7 @@
         ],
         techStack: "Python, FastAPI, Apache Pulsar, TensorFlow Lite, Google Earth Engine",
         position: new THREE.Vector3(-15, 0, 0),
-        color: 0x059669 // Emerald
+        color: 0xffffff // Monochrome White
       },
       {
         phase: "Phase 2: M04-M07",
@@ -121,7 +121,7 @@
         ],
         techStack: "Flower, PyTorch Geometric, LibND4J, Docker Sovereign Enclaves",
         position: new THREE.Vector3(-5, 3, -4),
-        color: 0x0284c7 // Electric Cyan
+        color: 0x38bdf8 // Cyan
       },
       {
         phase: "Phase 3: M08-M11",
@@ -134,7 +134,7 @@
         ],
         techStack: "Go, TimescaleDB, PostGIS, Redis Streams, Mapbox GL",
         position: new THREE.Vector3(5, -2, 4),
-        color: 0x4f46e5 // Indigo
+        color: 0x818cf8 // Indigo
       },
       {
         phase: "Phase 4: M12+",
@@ -147,7 +147,7 @@
         ],
         techStack: "Kubernetes, Apache Iceberg, Rust Micro-dispatchers, WASM",
         position: new THREE.Vector3(15, 1, 0),
-        color: 0xd97706 // Solar Amber
+        color: 0xf59e0b // Amber
       }
     ];
 
@@ -272,12 +272,10 @@
       }
     ];
 
-    // --- 2. THREE.JS 3D SCENE SETUP (FIFA 2026 Nature Light Atmosphere) ---
+    // --- 2. THREE.JS 3D SCENE SETUP (Terafab Deep Black Void) ---
     const container = document.getElementById('canvas-container');
     const scene = new THREE.Scene();
-    
-    // Nature Light Sky Fog (Crisp Azure Blue)
-    scene.fog = new THREE.FogExp2(0xe0f2fe, 0.025);
+    scene.fog = new THREE.FogExp2(0x000000, 0.035);
 
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0, 10, 28);
@@ -288,41 +286,41 @@
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
-    // Natural Sunlight Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
     scene.add(ambientLight);
 
-    const sunLight = new THREE.DirectionalLight(0xffffff, 2.5);
-    sunLight.position.set(30, 50, 30);
-    scene.add(sunLight);
+    const dirLight1 = new THREE.DirectionalLight(0x38bdf8, 2.5);
+    dirLight1.position.set(20, 40, 20);
+    scene.add(dirLight1);
 
-    const cyanSkyLight = new THREE.DirectionalLight(0x06b6d4, 1.2);
-    cyanSkyLight.position.set(-20, -10, -20);
-    scene.add(cyanSkyLight);
+    const dirLight2 = new THREE.DirectionalLight(0xffffff, 1.5);
+    dirLight2.position.set(-20, -20, -20);
+    scene.add(dirLight2);
 
-    // Stadium Nature Grass Grid Floor
-    const gridHelper = new THREE.GridHelper(80, 80, 0x10b981, 0xa7f3d0);
+    // Terafab Structural Grid Floor
+    const gridHelper = new THREE.GridHelper(80, 80, 0x1f1f1f, 0x141414);
     gridHelper.position.y = -6;
     scene.add(gridHelper);
 
-    // Dynamic Spline Curve (Vibrant Electric Turquoise)
+    // Trajectory Tube Spline (Glow White / Cyan)
     const curvePoints = ROADMAP_STAGES.map(s => s.position);
     const spline = new THREE.CatmullRomCurve3(curvePoints);
-    const tubeGeometry = new THREE.TubeGeometry(spline, 120, 0.22, 16, false);
+    const tubeGeometry = new THREE.TubeGeometry(spline, 120, 0.18, 16, false);
     const tubeMaterial = new THREE.MeshStandardMaterial({
-      color: 0x0284c7, emissive: 0x059669, emissiveIntensity: 0.5, roughness: 0.2, metalness: 0.7
+      color: 0xffffff, emissive: 0x38bdf8, emissiveIntensity: 0.6, roughness: 0.2, metalness: 0.8
     });
     const tubeMesh = new THREE.Mesh(tubeGeometry, tubeMaterial);
     scene.add(tubeMesh);
 
-    // Interactive Milestone Beacons
+    // Milestone Beacons
     const clickableObjects = [];
     const nodeMeshes = [];
 
     ROADMAP_STAGES.forEach(stage => {
-      const sphereGeo = new THREE.IcosahedronGeometry(1.0, 2);
+      const sphereGeo = new THREE.IcosahedronGeometry(0.9, 2);
       const sphereMat = new THREE.MeshStandardMaterial({
-        color: stage.color, emissive: stage.color, emissiveIntensity: 0.6, wireframe: true
+        color: stage.color, emissive: stage.color, emissiveIntensity: 0.7, wireframe: true
       });
       const beacon = new THREE.Mesh(sphereGeo, sphereMat);
       beacon.position.copy(stage.position);
@@ -331,21 +329,21 @@
       clickableObjects.push(beacon);
       nodeMeshes.push({ mesh: beacon, milestone: stage });
 
-      const ringGeo = new THREE.TorusGeometry(1.6, 0.05, 16, 100);
-      const ringMat = new THREE.MeshBasicMaterial({ color: stage.color, transparent: true, opacity: 0.6 });
+      const ringGeo = new THREE.TorusGeometry(1.5, 0.04, 16, 100);
+      const ringMat = new THREE.MeshBasicMaterial({ color: stage.color, transparent: true, opacity: 0.45 });
       const ring = new THREE.Mesh(ringGeo, ringMat);
       ring.rotation.x = Math.PI / 2;
       beacon.add(ring);
     });
 
-    // Nature Aerosol Particle Field (Vibrant Emerald, Sun Yellow & Cyan)
-    const particleCount = 1800;
+    // Aerosol Smog Particle Simulation
+    const particleCount = 1500;
     const particleGeo = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const velocities = new Float32Array(particleCount * 3);
 
     for (let i = 0; i < particleCount * 3; i += 3) {
-      positions[i] = (Math.random() - 0.5) * 75;
+      positions[i] = (Math.random() - 0.5) * 70;
       positions[i + 1] = (Math.random() - 0.5) * 25;
       positions[i + 2] = (Math.random() - 0.5) * 50;
 
@@ -356,12 +354,12 @@
 
     particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     const particleMat = new THREE.PointsMaterial({
-      color: 0x059669, size: 0.12, transparent: true, opacity: 0.65
+      color: 0x38bdf8, size: 0.09, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending
     });
     const particles = new THREE.Points(particleGeo, particleMat);
     scene.add(particles);
 
-    // Camera Focus & Raycasting
+    // Camera Lerp Targets
     let targetCamPos = null;
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
@@ -378,7 +376,7 @@
       document.getElementById('detail-stack').innerHTML = `<code>${stage.techStack}</code>`;
     }
 
-    // Window Events
+    // Window Interactions
     window.addEventListener('pointerdown', (e) => {
       if (e.target.closest('#overlay') || e.target.closest('#top-bar') || e.target.closest('.tab-panel') || e.target.closest('#pitch-modal')) return;
       mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
@@ -450,61 +448,61 @@
     }
     animate();
 
-    // --- 3. UI TAB MODULE RENDERERS ---
+    // --- 3. UI PANELS RENDERERS (Terafab Style) ---
     // Sky Vision Panel
     document.getElementById('panel-sky-vision').innerHTML = `
       <div class="panel-title">
-        <span>🌅 Citizen Sky Vision (Gemini 1.5)</span>
-        <span class="badge">AOD Optical Depth</span>
+        <span>Citizen Sky Vision</span>
+        <span class="badge">Gemini 1.5</span>
       </div>
-      <p class="panel-subtitle">Upload a sky photograph or select a sample scenario to compute visual range extinction & Aerosol Optical Depth (AOD).</p>
+      <p class="panel-subtitle">Calculate extinction coefficient & Aerosol Optical Depth (AOD) from sky photos.</p>
       <div class="form-group">
-        <label class="form-label">Select Curated Sky Scenario:</label>
+        <label class="form-label">Select Sample Scenario:</label>
         <div class="sample-grid" id="sky-samples">
           <div class="sample-card selected" data-aod="1.85">
-            <div class="sample-title">🌾 Punjab Stubble Smog</div>
+            <div class="sample-title">Punjab Stubble Smog</div>
             <div class="sample-desc">Agricultural Fire • AOD 1.85</div>
           </div>
           <div class="sample-card" data-aod="2.15">
-            <div class="sample-title">🏭 Delhi Industrial Inversion</div>
+            <div class="sample-title">Delhi Inversion</div>
             <div class="sample-desc">Hazardous Smog • AOD 2.15</div>
           </div>
           <div class="sample-card" data-aod="0.75">
-            <div class="sample-title">🚗 Rohtak Vehicular Haze</div>
-            <div class="sample-desc">Mid Haze • AOD 0.75</div>
+            <div class="sample-title">Rohtak Haze</div>
+            <div class="sample-desc">Dust Haze • AOD 0.75</div>
           </div>
           <div class="sample-card" data-aod="0.15">
-            <div class="sample-title">🏞️ Clear Alpine Baseline</div>
+            <div class="sample-title">Clear Baseline</div>
             <div class="sample-desc">Post-Monsoon • AOD 0.15</div>
           </div>
         </div>
       </div>
       <div class="form-group">
-        <label class="form-label">Target Advisory Language:</label>
-        <select id="sky-lang" style="width:100%; padding:10px; background:#ffffff; color:#0f172a; border:1.5px solid var(--border-light); border-radius:10px; font-size:13px; font-weight:700;">
+        <label class="form-label">Target Language:</label>
+        <select id="sky-lang" style="width:100%; padding:10px; background:#000; color:#fff; border:1px solid var(--line); border-radius:8px; font-family:var(--font-sans); font-size:12px;">
           <option value="Hindi">Hindi (हिंदी)</option>
           <option value="Punjabi">Punjabi (ਪੰਜਾਬੀ)</option>
           <option value="Tamil">Tamil (தமிழ்)</option>
           <option value="English">English</option>
         </select>
       </div>
-      <button id="btn-run-sky" class="btn-primary"><span>Run Gemini Vision Inspection</span></button>
+      <button id="btn-run-sky" class="btn-primary">Run Gemini Inspection</button>
       <div id="sky-output" class="analysis-output" style="display:none;"></div>
     `;
 
     // Corridor Radar Panel
     document.getElementById('panel-corridor-radar').innerHTML = `
       <div class="panel-title">
-        <span>⚡ Einsteinian Advection Radar</span>
-        <span class="badge">CPCB Feeds + PDE Vector</span>
+        <span>Einstein Advection Radar</span>
+        <span class="badge">CPCB Feeds</span>
       </div>
-      <p class="panel-subtitle">Calculates advection transport ∂C/∂t + u·∇C along 300° wind direction & Teslian harmonic surge pulses.</p>
+      <p class="panel-subtitle">Calculate advection transport ∂C/∂t + u·∇C along 300° wind direction & Teslian surge harmonics.</p>
       <div class="detail-block">
         <h4>Physics PDE Equation</h4>
-        <div style="font-family:var(--font-mono); font-size:12px; color:var(--fifa-emerald); font-weight:700;">∂C/∂t + u · ∇C = ∇ · (D ∇C) + R</div>
+        <div style="font-family:var(--font-mono); font-size:12px; color:var(--text);">∂C/∂t + u · ∇C = ∇ · (D ∇C) + R</div>
       </div>
       <div class="form-group">
-        <label class="form-label">Active Corridor Ground Stations (CPCB Feeds):</label>
+        <label class="form-label">Active Corridor Ground Stations:</label>
         ${CORRIDOR_STATIONS.map(s => `
           <div class="station-card">
             <div class="station-info">
@@ -513,25 +511,25 @@
             </div>
             <div class="station-pm">
               <div class="pm-value ${s.status.toLowerCase()}">${s.pm25}</div>
-              <div style="font-size:11px; color:var(--text-muted); font-weight:700;">PM2.5 µg/m³</div>
+              <div style="font-size:10px; color:var(--text-muted);">PM2.5 µg/m³</div>
             </div>
           </div>
         `).join('')}
       </div>
-      <button id="btn-run-radar" class="btn-primary"><span>Compute Physics-Informed PINN Forecast</span></button>
+      <button id="btn-run-radar" class="btn-primary">Compute Physics Forecast</button>
       <div id="radar-output" class="analysis-output" style="display:none;"></div>
     `;
 
     // Voice Engine Panel
     document.getElementById('panel-voice-engine').innerHTML = `
       <div class="panel-title">
-        <span>🗣️ Multilingual Voice Engine</span>
-        <span class="badge">Bhashini / Speech-to-Text</span>
+        <span>Multilingual Voice Engine</span>
+        <span class="badge">Bhashini</span>
       </div>
       <p class="panel-subtitle">Grassroots voice dialogue for farmers & municipal officers in vernacular dialects.</p>
       <div class="form-group">
-        <label class="form-label">Select Regional Language:</label>
-        <select id="voice-lang" style="width:100%; padding:10px; background:#ffffff; color:#0f172a; border:1.5px solid var(--border-light); border-radius:10px; font-size:13px; font-weight:700;">
+        <label class="form-label">Select Language:</label>
+        <select id="voice-lang" style="width:100%; padding:10px; background:#000; color:#fff; border:1px solid var(--line); border-radius:8px; font-family:var(--font-sans); font-size:12px;">
           <option value="Hindi">Hindi (हिंदी)</option>
           <option value="Punjabi">Punjabi (ਪੰਜਾਬੀ)</option>
           <option value="Tamil">Tamil (தமிழ்)</option>
@@ -540,11 +538,11 @@
       </div>
       <div class="form-group">
         <label class="form-label">Query Prompt:</label>
-        <textarea id="voice-query" rows="3" style="width:100%; padding:10px; background:#ffffff; color:#0f172a; border:1.5px solid var(--border-light); border-radius:10px; font-size:13px; font-family:inherit; resize:vertical; font-weight:500;">ਸਾਡੇ ਖੇਤ ਵਿੱਚ ਧੂੰਆਂ ਕਦੋਂ ਤੱਕ ਸਾਫ਼ ਹੋਵੇਗਾ?</textarea>
+        <textarea id="voice-query" rows="3" style="width:100%; padding:10px; background:#000; color:#fff; border:1px solid var(--line); border-radius:8px; font-family:inherit; font-size:12px; resize:vertical;">ਸਾਡੇ ਖੇਤ ਵਿੱਚ ਧੂੰਆਂ ਕਦੋਂ ਤੱਕ ਸਾਫ਼ ਹੋਵੇਗਾ?</textarea>
       </div>
-      <button id="btn-voice-submit" class="btn-primary"><span>Synthesize Vernacular Advisory</span></button>
+      <button id="btn-voice-submit" class="btn-primary">Synthesize Audio Advisory</button>
       <div id="voice-output" class="analysis-output" style="display:none;"></div>
-      <button id="btn-voice-speak" class="btn-primary" style="margin-top:12px; background:linear-gradient(135deg, #059669, #0d9488); display:none;">🔊 Play Audio Speech</button>
+      <button id="btn-voice-speak" class="btn-primary" style="margin-top:12px; background:#ffffff; color:#000000; display:none;">Play Audio Speech</button>
     `;
 
     // Pitch Deck Modal Presenter
@@ -558,11 +556,11 @@
       document.getElementById('pitch-modal').innerHTML = `
         <div class="slide-header">
           <div class="slide-num">Slide ${slide.id} / ${PITCH_DECK_SLIDES.length}</div>
-          <div style="font-size:14px; font-weight:800; color:var(--fifa-emerald);">${slide.category}</div>
+          <div style="font-size:13px; font-weight:500; color:var(--text-muted); font-family:var(--font-display);">${slide.category}</div>
           <div class="slide-nav-btns">
             <button class="nav-arrow-btn" id="deck-prev">← Prev</button>
             <button class="nav-arrow-btn" id="deck-next">Next →</button>
-            <button class="nav-arrow-btn" id="deck-close" style="background:rgba(225,29,72,0.15); color:#e11d48; border-color:rgba(225,29,72,0.3);">✕ Close</button>
+            <button class="nav-arrow-btn" id="deck-close" style="background:rgba(244,63,94,0.15); color:#f43f5e; border-color:rgba(244,63,94,0.3);">✕ Close</button>
           </div>
         </div>
         <div class="slide-title">${slide.title}</div>
