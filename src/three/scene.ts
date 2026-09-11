@@ -15,7 +15,6 @@ export class CorridorScene {
   private particlePositions!: Float32Array;
   private particleVelocities!: Float32Array;
   private targetCamPos: THREE.Vector3 | null = null;
-  private targetLookAt: THREE.Vector3 | null = null;
   private isDragging = false;
   private previousMousePosition = { x: 0, y: 0 };
   private onSelectMilestoneCallback?: (milestone: Milestone) => void;
@@ -24,9 +23,9 @@ export class CorridorScene {
     this.container = document.getElementById(containerId)!;
     this.onSelectMilestoneCallback = onSelectMilestone;
 
-    // --- Scene & Fog ---
+    // --- FIFA 2026 Nature Sky Scene & Fog ---
     this.scene = new THREE.Scene();
-    this.scene.fog = new THREE.FogExp2(0x030712, 0.035);
+    this.scene.fog = new THREE.FogExp2(0xe0f2fe, 0.025);
 
     // --- Camera ---
     this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -52,20 +51,21 @@ export class CorridorScene {
   }
 
   private initLighting() {
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
     this.scene.add(ambientLight);
 
-    const dirLight1 = new THREE.DirectionalLight(0x38bdf8, 2.5);
-    dirLight1.position.set(20, 40, 20);
-    this.scene.add(dirLight1);
+    const sunLight = new THREE.DirectionalLight(0xffffff, 2.5);
+    sunLight.position.set(30, 50, 30);
+    this.scene.add(sunLight);
 
-    const dirLight2 = new THREE.DirectionalLight(0x6366f1, 1.5);
-    dirLight2.position.set(-20, -20, -20);
-    this.scene.add(dirLight2);
+    const cyanLight = new THREE.DirectionalLight(0x06b6d4, 1.2);
+    cyanLight.position.set(-20, -10, -20);
+    this.scene.add(cyanLight);
   }
 
   private initGrid() {
-    const gridHelper = new THREE.GridHelper(80, 80, 0x1f2937, 0x111827);
+    // FIFA 2026 Emerald Stadium Pitch Grid
+    const gridHelper = new THREE.GridHelper(80, 80, 0x10b981, 0xa7f3d0);
     gridHelper.position.y = -6;
     this.scene.add(gridHelper);
   }
@@ -74,38 +74,26 @@ export class CorridorScene {
     const curvePoints = ROADMAP_STAGES.map(s => s.position);
     const spline = new THREE.CatmullRomCurve3(curvePoints);
     
-    // Core trajectory tube
-    const tubeGeometry = new THREE.TubeGeometry(spline, 120, 0.18, 16, false);
+    // Core trajectory tube (Electric Turquoise & Emerald Glow)
+    const tubeGeometry = new THREE.TubeGeometry(spline, 120, 0.22, 16, false);
     const tubeMaterial = new THREE.MeshStandardMaterial({
-      color: 0x3b82f6,
-      emissive: 0x1d4ed8,
-      emissiveIntensity: 0.6,
-      roughness: 0.3,
-      metalness: 0.8
+      color: 0x0284c7,
+      emissive: 0x059669,
+      emissiveIntensity: 0.5,
+      roughness: 0.2,
+      metalness: 0.7
     });
     const tubeMesh = new THREE.Mesh(tubeGeometry, tubeMaterial);
     this.scene.add(tubeMesh);
-
-    // Glowing outer trajectory wireframe
-    const outerTubeGeo = new THREE.TubeGeometry(spline, 120, 0.4, 8, false);
-    const outerTubeMat = new THREE.MeshBasicMaterial({
-      color: 0x38bdf8,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.15
-    });
-    const outerTubeMesh = new THREE.Mesh(outerTubeGeo, outerTubeMat);
-    this.scene.add(outerTubeMesh);
   }
 
   private initMilestoneBeacons() {
     ROADMAP_STAGES.forEach((stage) => {
-      // Beacon Sphere
-      const sphereGeo = new THREE.IcosahedronGeometry(0.9, 2);
+      const sphereGeo = new THREE.IcosahedronGeometry(1.0, 2);
       const sphereMat = new THREE.MeshStandardMaterial({
         color: stage.color,
         emissive: stage.color,
-        emissiveIntensity: 0.7,
+        emissiveIntensity: 0.6,
         wireframe: true
       });
       const beacon = new THREE.Mesh(sphereGeo, sphereMat);
@@ -116,42 +104,29 @@ export class CorridorScene {
       this.clickableObjects.push(beacon);
       this.nodeMeshes.push({ mesh: beacon, milestone: stage });
 
-      // Rotating Torus Ring
-      const ringGeo = new THREE.TorusGeometry(1.5, 0.04, 16, 100);
+      const ringGeo = new THREE.TorusGeometry(1.6, 0.05, 16, 100);
       const ringMat = new THREE.MeshBasicMaterial({
         color: stage.color,
         transparent: true,
-        opacity: 0.45
+        opacity: 0.6
       });
       const ring = new THREE.Mesh(ringGeo, ringMat);
       ring.rotation.x = Math.PI / 2;
       beacon.add(ring);
-
-      // Vertical Light Beam Indicator
-      const beamGeo = new THREE.CylinderGeometry(0.02, 0.4, 8, 16);
-      const beamMat = new THREE.MeshBasicMaterial({
-        color: stage.color,
-        transparent: true,
-        opacity: 0.25
-      });
-      const beam = new THREE.Mesh(beamGeo, beamMat);
-      beam.position.y = 4;
-      beacon.add(beam);
     });
   }
 
   private initParticleField() {
-    const count = 1500;
+    const count = 1800;
     const geometry = new THREE.BufferGeometry();
     this.particlePositions = new Float32Array(count * 3);
     this.particleVelocities = new Float32Array(count * 3);
 
     for (let i = 0; i < count * 3; i += 3) {
-      this.particlePositions[i] = (Math.random() - 0.5) * 70;
+      this.particlePositions[i] = (Math.random() - 0.5) * 75;
       this.particlePositions[i + 1] = (Math.random() - 0.5) * 25;
       this.particlePositions[i + 2] = (Math.random() - 0.5) * 50;
 
-      // Einsteinian wind advection velocity vector
       this.particleVelocities[i] = 0.02 + Math.random() * 0.03;
       this.particleVelocities[i + 1] = (Math.random() - 0.5) * 0.01;
       this.particleVelocities[i + 2] = (Math.random() - 0.5) * 0.02;
@@ -160,11 +135,10 @@ export class CorridorScene {
     geometry.setAttribute('position', new THREE.BufferAttribute(this.particlePositions, 3));
 
     const material = new THREE.PointsMaterial({
-      color: 0x38bdf8,
-      size: 0.09,
+      color: 0x059669,
+      size: 0.12,
       transparent: true,
-      opacity: 0.55,
-      blending: THREE.AdditiveBlending
+      opacity: 0.65
     });
 
     this.particles = new THREE.Points(geometry, material);
@@ -173,7 +147,6 @@ export class CorridorScene {
 
   private initEventListeners() {
     window.addEventListener('pointerdown', (e) => {
-      // Ignore if clicking on UI overlay
       const target = e.target as HTMLElement;
       if (target.closest('#overlay') || target.closest('#top-bar') || target.closest('.tab-panel') || target.closest('#pitch-modal')) {
         return;
@@ -197,7 +170,6 @@ export class CorridorScene {
       this.renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // Orbit Drag Controls
     window.addEventListener('mousedown', (e) => {
       const target = e.target as HTMLElement;
       if (target.closest('#overlay') || target.closest('#top-bar') || target.closest('.tab-panel') || target.closest('#pitch-modal')) {
@@ -222,7 +194,6 @@ export class CorridorScene {
       this.previousMousePosition = { x: e.clientX, y: e.clientY };
     });
 
-    // Zoom
     window.addEventListener('wheel', (e) => {
       const target = e.target as HTMLElement;
       if (target.closest('#overlay') || target.closest('.tab-panel') || target.closest('#pitch-modal')) {
@@ -238,7 +209,6 @@ export class CorridorScene {
       stage.position.y + 2.5,
       stage.position.z + 7
     );
-    this.targetLookAt = stage.position.clone();
 
     if (this.onSelectMilestoneCallback) {
       this.onSelectMilestoneCallback(stage);
@@ -247,14 +217,12 @@ export class CorridorScene {
 
   public resetCamera() {
     this.targetCamPos = new THREE.Vector3(0, 10, 28);
-    this.targetLookAt = new THREE.Vector3(0, 0, 0);
   }
 
   private animate = () => {
     requestAnimationFrame(this.animate);
     const time = performance.now() * 0.001;
 
-    // Pulse & Rotate Milestone Beacons
     this.nodeMeshes.forEach(({ mesh }, index) => {
       mesh.rotation.y += 0.012;
       mesh.rotation.x += 0.006;
@@ -262,17 +230,14 @@ export class CorridorScene {
       mesh.scale.set(scale, scale, scale);
     });
 
-    // Einstein-Tesla Smog Particle Flow Simulation
     const positions = this.particlePositions;
     const vels = this.particleVelocities;
 
     for (let i = 0; i < positions.length; i += 3) {
-      // Advection transport along X axis + Teslian harmonic wave modulation
       positions[i] += vels[i] + 0.005 * Math.sin(time * 2 + positions[i + 2]);
       positions[i + 1] += vels[i + 1] + 0.002 * Math.cos(time * 1.5 + positions[i]);
       positions[i + 2] += vels[i + 2];
 
-      // Wrap around bounds
       if (positions[i] > 35) positions[i] = -35;
       if (positions[i + 1] > 15) positions[i + 1] = -15;
       if (positions[i + 2] > 25) positions[i + 2] = -25;
@@ -280,7 +245,6 @@ export class CorridorScene {
 
     this.particles.geometry.attributes.position.needsUpdate = true;
 
-    // Camera Smooth Interpolation
     if (this.targetCamPos) {
       this.camera.position.lerp(this.targetCamPos, 0.06);
       if (this.camera.position.distanceTo(this.targetCamPos) < 0.1) {
