@@ -1,0 +1,5 @@
+defaultProject: prana-brics-gcp
+defaultLocation: us-central1
+defaultDataset: prana_climate_analytics
+defaultAssertionDataset: prana_assertions
+dataformCoreVersion: 3.0.0

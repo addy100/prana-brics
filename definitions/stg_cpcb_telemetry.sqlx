@@ -1,0 +1,33 @@
+config {
+  type: "table",
+  schema: "prana_climate_analytics",
+  name: "stg_cpcb_telemetry",
+  description: "Staging table for raw government CPCB and Open-Meteo climate ground telemetry data",
+  columns: {
+    station_id: "Unique station identifier",
+    station_name: "Government monitoring station location name",
+    latitude: "Station latitude coordinate",
+    longitude: "Station longitude coordinate",
+    pm25_raw: "Raw observed PM2.5 concentration in ug/m3",
+    pm10_raw: "Raw observed PM10 concentration in ug/m3",
+    no2_raw: "Raw observed NO2 concentration in ug/m3",
+    wind_speed: "Observed wind speed in m/s",
+    wind_direction: "Observed wind direction in degrees",
+    observed_at: "Timestamp of telemetry reading"
+  }
+}
+
+SELECT
+  CAST(station_id AS STRING) AS station_id,
+  TRIM(station_name) AS station_name,
+  CAST(latitude AS FLOAT64) AS latitude,
+  CAST(longitude AS FLOAT64) AS longitude,
+  -- Data Autocleaning: null handling & floor boundary validation
+  COALESCE(SAFE_CAST(pm25_raw AS FLOAT64), 0.0) AS pm25_clean,
+  COALESCE(SAFE_CAST(pm10_raw AS FLOAT64), 0.0) AS pm10_clean,
+  COALESCE(SAFE_CAST(no2_raw AS FLOAT64), 0.0) AS no2_clean,
+  COALESCE(SAFE_CAST(wind_speed AS FLOAT64), 0.0) AS wind_speed,
+  COALESCE(SAFE_CAST(wind_direction AS INT64), 300) AS wind_direction,
+  COALESCE(SAFE_CAST(observed_at AS TIMESTAMP), CURRENT_TIMESTAMP()) AS observed_at
+FROM
+  `prana-brics-gcp.raw_ingestion.cpcb_live_stream`

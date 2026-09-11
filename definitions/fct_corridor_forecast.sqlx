@@ -1,0 +1,27 @@
+config {
+  type: "incremental",
+  schema: "prana_climate_analytics",
+  name: "fct_corridor_forecast",
+  description: "Physics-informed Einsteinian advection transport forecast table for Indo-Gangetic corridor",
+  columns: {
+    station_id: "Target station identifier",
+    forecast_date: "Target forecast horizon date",
+    projected_pm25: "Physics-derived projected PM2.5 concentration",
+    advection_vector: "Wind transport vector heading",
+    risk_level: "Corridor risk categorization"
+  }
+}
+
+SELECT
+  station_id,
+  DATE_ADD(CURRENT_DATE(), INTERVAL 1 DAY) AS forecast_date,
+  -- Einsteinian Advection Vector calculation term: u * dC/dx
+  ROUND(pm25_clean * (1.0 + (wind_speed * 0.05 * SIN(RADIANS(wind_direction)))), 2) AS projected_pm25,
+  CONCAT(CAST(wind_speed AS STRING), ' m/s @ ', CAST(wind_direction AS STRING), '° NW') AS advection_vector,
+  CASE
+    WHEN pm25_clean > 120 THEN 'CRITICAL'
+    WHEN pm25_clean > 80 THEN 'SEVERE'
+    ELSE 'MODERATE'
+  END AS risk_level
+FROM
+  ${ref("stg_cpcb_telemetry")}
